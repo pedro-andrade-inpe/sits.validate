@@ -66,38 +66,41 @@ totalValidation = function(result){
   return (sum(percentages[1:5,1]) + sum(percentages[9:13,2]))
 }
 
+printLog = function(value, log)
+  if(log) cat(paste0(value, "\n"))
+
 compareWithCerradoMask = function(data, log = TRUE){
-  if(log) print("1/7 - Computing box")
+  printLog("1/7 - Computing box", log)
   
   boxluc = rasterToPolygon(data) %>%
     st_as_sf %>%
     st_transform("+proj=longlat +ellps=GRS80 +no_defs")
 
-  if(log) print("2/7 - Loading mask 1/3 (slow)")
+  printLog("2/7 - Loading mask 1/3 (slow)", log)
 
-  mask1 = sf::st_read(dsn = mypath("MapasReferencia/Cerrado"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol")
+  mask1 = sf::st_read(dsn = mypath("MapasReferencia/Cerrado"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol", quiet=TRUE)
   submask1a = mask1[boxluc, op = st_overlaps]
   submask1b = mask1[boxluc, op = st_within]
   rm(mask1)
   gc()
   
-  if(log) print("3/7 - Loading mask 2/3 (slow)")
+  printLog("3/7 - Loading mask 2/3 (slow)", log)
   
-  mask2 = sf::st_read(dsn = mypath("MapasReferencia/Cerrado"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol_split1")
+  mask2 = sf::st_read(dsn = mypath("MapasReferencia/Cerrado"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol_split1", quiet=TRUE)
   submask2a = mask2[boxluc, op = st_overlaps]
   submask2b = mask2[boxluc, op = st_within]
   rm(mask2)
   gc()
   
-  if(log) print("4/7 - Loading mask 3/3")
+  printLog("4/7 - Loading mask 3/3", log)
   
-  mask3 = sf::st_read(dsn = mypath("MapasReferencia/Cerrado"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol_split2")
+  mask3 = sf::st_read(dsn = mypath("MapasReferencia/Cerrado"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol_split2", quiet=TRUE)
   submask3a = mask3[boxluc, op = st_overlaps]
   submask3b = mask3[boxluc, op = st_within]
   rm(mask3)
   gc()
 
-  if(log) print("5/7 - Joining the three masks")
+  printLog("5/7 - Joining the three masks", log)
   
   submask = rbind(submask1a, submask1b, submask2a, submask2b, submask3a, submask3b) %>%
     st_transform("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs") %>%
@@ -108,11 +111,11 @@ compareWithCerradoMask = function(data, log = TRUE){
 
   submask[,"abc"] = "1" # need to do this because raster::extract requires that the data should have at least one attribute
 
-  if(log) print("6/7 - Extracting pixels within mask")
+  printLog("6/7 - Extracting pixels within mask", log)
   
   pixels_mask = unlist(raster::extract(data, submask)) %>% table()
 
-  if(log) print("7/7 - Extracting pixels within all the data")
+  printLog("7/7 - Extracting pixels within all the data", log)
   
   all_pixels = raster::getValues(data) %>% table()
 
