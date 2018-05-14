@@ -119,6 +119,31 @@ pixelsWithinPolygons = function(polygons, raster){
   extract(biggerRaster, p)
 }
 
+simplifyOutput = function(output){
+  # adding the totals as a new line and a new column
+  sum_lines = apply(output, 1, sum)
+  sum_columns = apply(output, 2, sum)
+  
+  total = sum(output)
+  sum_columns = c(sum_columns, total)
+  output = cbind(output, Total = sum_lines)
+  output = rbind(output, Total = sum_columns)
+  
+  # removing the lines whose values are all equal to zero
+  output<-output[-which(apply(output, 1, function(x) all(x == 0))),]
+  
+  # removing the columns whose values are all equal to zero
+  output<-output[,-which(apply(output, 2, function(x) all(x == 0)))]
+  
+  # final output comparing the two data
+  output
+}
+
+totalValidation = function(result){
+  total = sum(result)
+  (sum(result[10:14, 1]) + sum(result[1:5,5]) + result[9,11])/total
+}
+
 printLog = function(value, log)
   if(log) cat(paste0(value, "\n"))
 
@@ -157,28 +182,13 @@ compareTCCerrado = function(data, log = TRUE){
 }
 
 ADN2013 = raster::raster(mypath("RasterData/AlvoradaDoNorte_GO/classificacoes/ADN-class-Cerrado_28022018_2012_8_2013_8.tif"))
-output = compareTCCerrado(ADN2013)
-result
+result = compareTCCerrado(ADN2013)
+
+simple = simplifyOutput(result)
+
+simple/total*100
+
+totalValidation(result)
 
 LUC2013 = raster::raster(mypath("RasterData/Luciara_MT/classificacoes/LUC-class-Cerrado_28022018_2012_8_2013_8.tif"))
 WAN2013 = raster::raster(mypath("RasterData/Wanderley_BA/classificacoes/WAN-class-filtered-svm_2012_8_2013_8.tif"))
-
-# adding the totals as a new line and a new column
-sum_lines = apply(output, 1, sum)
-sum_columns = apply(output, 2, sum)
-total = sum(output)
-sum_columns = c(sum_columns, total)
-output = cbind(output, Total = sum_lines)
-output = rbind(output, Total = sum_columns)
-
-# removing the lines whose values are all equal to zero
-output<-output[-which(apply(output, 1, function(x) all(x == 0))),]
-
-# removing the columns whose values are all equal to zero
-output<-output[,-which(apply(output, 2, function(x) all(x == 0)))]
-
-# final output comparing the two data
-output
-
-
-
