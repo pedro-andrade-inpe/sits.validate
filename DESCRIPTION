@@ -1,9 +1,9 @@
-Package: sits_validate
+Package: sits.validate
 Type: Package
 Title: Validate sits classifications
 Version: 0.0-1
 Date: 2018-06-04
-Authors@R: c(person('Pedro', 'Andrade', role = c('aut', 'ctb'), email = 'pedro.andrade@inpe.br'))
+Authors@R: c(person('Pedro', 'Andrade', role = c('aut', 'cre'), email = 'pedro.andrade@inpe.br'))
 Maintainer: Pedro R. Andrade <pedro.andrade@inpe.br>
 Description: A set of tools to validate sits classification as well as to summarize the outputs and produce aggregated data.
 Depends: R (>= 3.4)
@@ -16,7 +16,13 @@ Imports:
     dplyr,
     parallel
 RoxygenNote: 6.0.1
+Collate:
     'zzz.R'
+    'compareCerradoMask.R'
+    'compareTCCerrado.R'
+    'gis.R'
+    'summarizeByStates.R'
+    'utils.R'
 Suggests: 
     knitr,
     rmarkdown,
