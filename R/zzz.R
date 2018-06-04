@@ -58,3 +58,11 @@ sits_validate.env$classes_mask = c(
     "0. Fora",
     "1. Dentro"
 )
+
+.onAttach = function(lib, pkg){
+    packageStartupMessage("sits.validate - Validating sits classifications.")
+    packageStartupMessage(sprintf("Loaded version %s.", utils::packageDescription("sits.validate")$Version))
+    packageStartupMessage(sprintf("Using base directory '%s'.", sits_validate.env$base_dir))
+}
+
+utils::globalVariables("%>%")

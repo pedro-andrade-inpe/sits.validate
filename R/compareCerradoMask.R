@@ -1,9 +1,4 @@
 
-# explanations about raster::extract()
-# https://gis.stackexchange.com/questions/187096/extract-function-from-r-raster-package-returns-different-cells-if-weights-pa
-# logical. If TRUE and normalizeWeights=FALSE, the function returns, for each polygon, a matrix with the cell values and the approximate fraction of each cell that is covered by the polygon(rounded to 1/100). If TRUE and normalizeWeights=TRUE the weights are normalized such that they add up to one. The weights can be used for averaging; see examples. This option can be useful (but slow) if the polygons are small relative to the cells size of the Raster* object
-
-
 printTotal = function(result){
   str = capture.output(print(result))
   str = str[-(1:2)]
@@ -22,13 +17,14 @@ totalValidation = function(result){
   return (sum(percentages[1:5,1]) + sum(percentages[9:13,2]))
 }
 
-
-compareWithCerradoMask = function(data, log = TRUE){
+#' @title Compare with Cerrado Mask.
+#' @export
+compareWithCerradoMask <- function(data, log = TRUE){
   printLog("1/7 - Computing box", log)
 
-  boxluc = rasterToPolygon(data) %>%
-    st_as_sf %>%
-    st_transform("+proj=longlat +ellps=GRS80 +no_defs")
+  boxluc <- rasterBoxToPolygon(data) %>%
+    sf::st_as_sf() %>%
+    sf::st_transform("+proj=longlat +ellps=GRS80 +no_defs")
 
   printLog("2/7 - Loading mask 1/3 (slow)", log)
 

@@ -1,5 +1,5 @@
 
-require("sits-validate")
+require(sits.validate)
 
 LUC2015 = raster::raster(mypath("RasterData/Luciara_MT/classificacoes/LUC-class-Cerrado_28022018_2014_8_2015_8.tif"))
 

@@ -1,31 +1,9 @@
 
-
-simplifyOutput = function(output){
-  # adding the totals as a new line and a new column
-  sum_lines = apply(output, 1, sum)
-  sum_columns = apply(output, 2, sum)
-
-  total = sum(output)
-  sum_columns = c(sum_columns, total)
-  output = cbind(output, Total = sum_lines)
-  output = rbind(output, Total = sum_columns)
-
-  # removing the lines whose values are all equal to zero
-  output<-output[-which(apply(output, 1, function(x) all(x == 0))),]
-
-  # removing the columns whose values are all equal to zero
-  output<-output[,-which(apply(output, 2, function(x) all(x == 0)))]
-
-  # final output comparing the two data
-  output
-}
-
 # Convert a vector of pixels into a summary with the areas of each class
-summarizePixels = function(pixels, resolution){ # supposes that the resolution is in meters
-  result = table(pixels)
+summarizePixels <- function(pixels, resolution){ # supposes that the resolution is in meters
+  result <- table(pixels)
   t(t(round(result * resolution[1] * resolution[2] / 10000))) # to hectares
 }
-
 
 #' @title Summarize the classification areas into a set of polygons
 #' @name summarizeOneByPolygons
@@ -36,24 +14,24 @@ summarizePixels = function(pixels, resolution){ # supposes that the resolution i
 #' set of polygons.
 #' @export
 summarizeOneByPolygons <- function(data, layer, attribute, log = TRUE){
-  brazil = sf::st_read(dsn = mypath("Shapefiles/Brasil"), layer = layer, quiet=TRUE) %>%
-    st_transform("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")
+  brazil <- sf::st_read(dsn <- mypath("Shapefiles/Brasil"), layer = layer, quiet=TRUE) %>%
+    sf::st_transform("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")
 
-  quantity = dim(brazil)[1]
+  quantity <- dim(brazil)[1]
 
-  mynames = as.data.frame(brazil)[,attribute]
+  mynames <- as.data.frame(brazil)[,attribute]
 
-  output = matrix(0, ncol = quantity, nrow = length(classes_sits))
-  colnames(output) = mynames
-  rownames(output) = classes_sits
+  output <- matrix(0, ncol = quantity, nrow = length(sits_validate.env$classes_sits))
+  colnames(output) <- mynames
+  rownames(output) <- sits_validate.env$classes_sits
 
   for(i in 1:quantity){
     cat(paste0("Processing ", i, "/", quantity, " object '", mynames[i], "'\n"))
 
-    polygon = brazil[i,]
+    polygon <- brazil[i,]
 
-    summ = raster::extract(data, polygon) %>% summarizePixels(degreesToMeters(raster::res(data)))
-    columns = strtoi(rownames(t(t(summ))))
+    summ <- raster::extract(data, polygon) %>% summarizePixels(degreesToMeters(raster::res(data)))
+    columns <- strtoi(rownames(t(t(summ))))
     output[columns, i] <- summ[,1]
   }
 
@@ -99,7 +77,7 @@ summarizeOneByStates <- function(data, log = TRUE){
 #' @param data A raster::raster object.
 #' @param log A boolean value indicating whether a log should be printed along the execution.
 #' @export
-summarizeOneBySimU = function(data, log = TRUE){
+summarizeOneBySimU <- function(data, log = TRUE){
   summarizeOneByPolygons(data, "simu_brazil_disjoint_units", "grd30", log)
 }
 
