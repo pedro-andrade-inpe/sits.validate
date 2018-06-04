@@ -1,60 +1,24 @@
 
-require(sf)
-require(raster)
-require(rgeos)
-require(dplyr)
-
-
-###### DEFINE WHERE THE DATA IS ######
-
-base_dir = "/Users/pedro/TWDTWAmazoniaCerrado/"
-
-mypath = function(path) paste0(base_dir, path)
-
-
-classes_sits = c(
-  "1.  Araguaia",
-  "2.  Campo_Cerrado",
-  "3.  Cerradao",
-  "4.  Cerrado",
-  "5.  Cerrado_Rupestre",
-  "6.  Dunas",
-  "7.  Fallow_Cotton",
-  "8.  Millet_Cotton",
-  "9.  Pasture",
-  "10. Soy_Corn",
-  "11. Soy_Cotton",
-  "12. Soy_Fallow",
-  "13. Soy_Millet",
-  "14. Sugarcane",
-  "15. Urban Area",
-  "16. Water"
-)
-
 
 simplifyOutput = function(output){
   # adding the totals as a new line and a new column
   sum_lines = apply(output, 1, sum)
   sum_columns = apply(output, 2, sum)
-  
+
   total = sum(output)
   sum_columns = c(sum_columns, total)
   output = cbind(output, Total = sum_lines)
   output = rbind(output, Total = sum_columns)
-  
+
   # removing the lines whose values are all equal to zero
   output<-output[-which(apply(output, 1, function(x) all(x == 0))),]
-  
+
   # removing the columns whose values are all equal to zero
   output<-output[,-which(apply(output, 2, function(x) all(x == 0)))]
-  
+
   # final output comparing the two data
   output
 }
-
-printLog = function(value, log)
-  if(log) cat(paste0(value, "\n"))
-
 
 # Convert a vector of pixels into a summary with the areas of each class
 summarizePixels = function(pixels, resolution){ # supposes that the resolution is in meters
@@ -62,32 +26,80 @@ summarizePixels = function(pixels, resolution){ # supposes that the resolution i
   t(t(round(result * resolution[1] * resolution[2] / 10000))) # to hectares
 }
 
-summarizeByStates = function(data, log = TRUE){
-  brazil = sf::st_read(dsn = mypath("Shapefiles/Brasil"), layer = "UFEBRASIL", quiet=TRUE) %>%
+
+#' @title Summarize the classification areas into a set of polygons
+#' @name summarizeOneByPolygons
+#' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
+#'
+#' @description This function returns a table separating the
+#' classifications according to the overlapping areas with a
+#' set of polygons.
+#' @export
+summarizeOneByPolygons <- function(data, layer, attribute, log = TRUE){
+  brazil = sf::st_read(dsn = mypath("Shapefiles/Brasil"), layer = layer, quiet=TRUE) %>%
     st_transform("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")
 
-  nstates = dim(brazil)[1]
-  statesnames = as.data.frame(brazil)[,"NM_ESTADO"]
-  
-  output = matrix(0, ncol = nstates, nrow = length(classes_sits))
-  colnames(output) = statesnames
+  quantity = dim(brazil)[1]
+
+  mynames = as.data.frame(brazil)[,attribute]
+
+  output = matrix(0, ncol = quantity, nrow = length(classes_sits))
+  colnames(output) = mynames
   rownames(output) = classes_sits
 
-  for(i in 1:nstates){
-    print(paste0("Processing ", statesnames[i]))
-    
+  for(i in 1:quantity){
+    cat(paste0("Processing ", i, "/", quantity, " object '", mynames[i], "'\n"))
+
     polygon = brazil[i,]
-    
+
     summ = raster::extract(data, polygon) %>% summarizePixels(degreesToMeters(raster::res(data)))
     columns = strtoi(rownames(t(t(summ))))
     output[columns, i] <- summ[,1]
   }
 
-  output  
+  output
 }
 
-LUC2015 = raster::raster(mypath("RasterData/Luciara_MT/classificacoes/LUC-class-Cerrado_28022018_2014_8_2015_8.tif"))
+#' @title Summarize the classification areas in each Brazilian municipality.
+#' @name summarizeOneByMunicipalities
+#' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
+#'
+#' @description This function returns the area of each class within
+#' each Brazilian municipality. The output is a data.frame with the
+#' same row names (classes) and municipalities as columns. It uses file
+#' 55mu2500gsd_removednull.shp, with 5,564 municipalities.
+#' @export
+summarizeOneByMunicipalities <- function(data, log = TRUE){
+  summarizeOneByPolygons(data, "55mu2500gsd_removednull", "Nome_Munic", log)
+}
 
-result = summarizeByStates(LUC2015)
+#' @title Summarize the classification areas in each Brazilian municipality.
+#' @name summarizeOneByMunicipalities
+#' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
+#'
+#' @description This function returns the area of each class within
+#' each Brazilian municipality. The output is a data.frame with the
+#' same row names (classes) and municipalities as columns. It uses file
+#' UFEBRASIL.shp, with 27 objects.
+#' @param data A raster::raster object.
+#' @param log A boolean value indicating whether a log should be printed along the execution.
+#' @export
+summarizeOneByStates <- function(data, log = TRUE){
+  summarizeOneByPolygons(data, "UFEBRASIL", "NM_ESTADO", log)
+}
 
-simplifyOutput(result)
+#' @title Summarize the classification areas in each Brazilian simulation units.
+#' @name summarizeOneByMunicipalities
+#' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
+#'
+#' @description This function returns the area of each class within
+#' each Brazilian municipality. The output is a data.frame with the
+#' same row names (classes) and municipalities as columns. It uses file
+#' 55mu2500gsd_removednull.shp, with 18,194 simulation units.
+#' @param data A raster::raster object.
+#' @param log A boolean value indicating whether a log should be printed along the execution.
+#' @export
+summarizeOneBySimU = function(data, log = TRUE){
+  summarizeOneByPolygons(data, "simu_brazil_disjoint_units", "grd30", log)
+}
+
