@@ -6,6 +6,9 @@
 \usage{
 simplifyOutput(output)
 }
+\arguments{
+\item{output}{The output of a compare function, such as compareTCCerrado() or compareCerradoMask().}
+}
 \description{
 This function returns a simplified version of
 a comparison output. It removes all rows and columns with only

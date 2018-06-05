@@ -4,5 +4,14 @@
 \alias{compareWithCerradoMask}
 \title{Compare with Cerrado Mask.}
 \usage{
-compareWithCerradoMask(data, log = TRUE)
+compareWithCerradoMask(data, progress = TRUE)
+}
+\arguments{
+\item{data}{A raster data.}
+
+\item{progress}{A boolean value indicating whether this function should print its progress. Default is true.}
+}
+\description{
+Compare the classification with Cerrado Mask, a data related to the years from 2000 to 2015,
+indicating the areas that have antropic use within the Cerrado biome.
 }

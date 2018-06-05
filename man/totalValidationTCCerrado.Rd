@@ -6,3 +6,14 @@
 \usage{
 totalValidationTCCerrado(result)
 }
+\arguments{
+\item{result}{The result of compareTCCerrado().}
+}
+\description{
+The total validation is the sum of Soy_Corn, Soy_Cotton, Soy_Fallow, Soy_Millet, Sugarcane areas
+classified as Agricultura anual, plus Araguaia, Campo_Cerrado, Cerradao, Cerrado, and Cerrado_Rupestre areas
+classified as Natural, plus Pasture areas classified as Pastagem.
+}
+\seealso{
+compareTCCerrado
+}

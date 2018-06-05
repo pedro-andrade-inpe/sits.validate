@@ -4,13 +4,12 @@
 \alias{compareTCCerrado}
 \title{Compare with TerraClass Cerrado}
 \usage{
-compareTCCerrado(data, log = TRUE)
+compareTCCerrado(data, progress = TRUE)
 }
 \arguments{
 \item{data}{A raster data.}
 
-\item{log}{A boolean value indicating whether a log with the processing steps should be printed in the screen.
-Default is true.}
+\item{progress}{A boolean value indicating whether this function should print its progress. Default is true.}
 }
 \description{
 Compares the data with TerraClass Cerrado data for 2013. It returns values in hectares.

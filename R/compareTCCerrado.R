@@ -18,37 +18,33 @@ totalPixels <- function(raster){
   summarizePixels(values, resolution)
 }
 
-printTotal <- function(result){
-  str <- capture.output(print(result))
-  str <- str[-(1:2)]
-  str[1] <- paste0(" ", str[1])
-  cat(paste0(str, "ha\n"))
-  cat(paste0("Total: ", sum(result), "ha\n"))
-}
-
 #' @title Return the total validation comparing with TerraClass Cerrado
+#' @description The total validation is the sum of Soy_Corn, Soy_Cotton, Soy_Fallow, Soy_Millet, Sugarcane areas
+#' classified as Agricultura anual, plus Araguaia, Campo_Cerrado, Cerradao, Cerrado, and Cerrado_Rupestre areas
+#' classified as Natural, plus Pasture areas classified as Pastagem.
+#' @param result The result of compareTCCerrado().
+#' @seealso compareTCCerrado
 #' @export
 totalValidationTCCerrado <- function(result){
   total <- sum(result)
-  (sum(result[10:14, 1]) + sum(result[1:5,5]) + result[9,11])/total
+  return((sum(result[10:14, 1]) + sum(result[1:5, 5]) + result[9, 11]) / total)
 }
 
 #' @title Compare with TerraClass Cerrado
 #' @description Compares the data with TerraClass Cerrado data for 2013. It returns values in hectares.
 #' @param data A raster data.
-#' @param log A boolean value indicating whether a log with the processing steps should be printed in the screen.
-#' Default is true.
+#' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export
-compareTCCerrado <- function(data, log = TRUE){
-  tccerrado2013 <- raster(mypath("/MapasReferencia/TerraClassCerrado/TCCerrado_2013_GCS_30m/TCCerrado_2013_geo.tif"))
+compareTCCerrado <- function(data, progress = TRUE){
+  tccerrado2013 <- raster::raster(basePath("/MapasReferencia/TerraClassCerrado/TCCerrado_2013_GCS_30m/TCCerrado_2013_geo.tif"))
 
   polygons <- raster::rasterToPolygons(data, dissolve = TRUE) #%>%
   # st_as_sf() %>%
   #  st_transform("+proj=longlat +ellps=GRS80 +no_defs")
 
-  output <- matrix(0, ncol = length(sits_validate.env$classificacao_tc), nrow = length(sits_validate.env$classes_sits))
-  colnames(output) <- sits_validate.env$classificacao_tc_simplificada
-  rownames(output) <- sits_validate.env$classes_sits
+  output <- matrix(0, ncol = length(sits.validate.env$classificacao_tc), nrow = length(sits.validate.env$classes_sits))
+  colnames(output) <- sits.validate.env$classificacao_tc_simplificada
+  rownames(output) <- sits.validate.env$classes_sits
 
   # update to apply/mclapply
   quantity <- length(polygons)
@@ -59,7 +55,7 @@ compareTCCerrado <- function(data, log = TRUE){
     line <- p1@data[1,1] #%>% st_set_geometry(NULL)
     #line = line[1,1]
 
-    printLog(paste0("processing ", i, "/", quantity, " (class ", line, ")"), log)
+    printProgress(paste0("processing ", i, "/", quantity, " (class ", line, ")"), progress)
 
     res1 <- raster::extract(tccerrado2013, p1) # do this for each polygon above
     summ <- summarizePixels(res1[[1]], degreesToMeters(raster::res(tccerrado2013)))

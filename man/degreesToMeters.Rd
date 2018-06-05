@@ -9,3 +9,6 @@ degreesToMeters(degrees)
 \arguments{
 \item{degrees}{A value in degrees}
 }
+\description{
+Converts values from degrees to meters by multiplying them by 111,000.
+}

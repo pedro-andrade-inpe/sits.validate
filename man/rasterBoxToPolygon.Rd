@@ -6,6 +6,9 @@
 \usage{
 rasterBoxToPolygon(raster)
 }
+\arguments{
+\item{raster}{A raster::raster.}
+}
 \description{
 This function returns a SpatialPolygons with the
 bounding box of a raster data, with the same projection of the

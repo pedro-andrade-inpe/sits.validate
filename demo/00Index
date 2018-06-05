@@ -1,0 +1,7 @@
+summarizeByMunicipalities  Summarize the classification output using Brazilian municipalities
+summarizeByStates          Summarize the classification output using Brazilian states
+summarizeBySimU            Summarize the classification output using Simulation Units
+cutCerradoWithMasks        Creates data from a set of classification outputs by clipping only Cerrado area
+validateTerraClassCerrado  Compares the classification output with Terra Class Cerrado
+validateCerradoMask        Compares the classification output with Cerrado Mask
+

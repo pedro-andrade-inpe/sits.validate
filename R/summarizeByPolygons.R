@@ -6,24 +6,27 @@ summarizePixels <- function(pixels, resolution){ # supposes that the resolution 
 }
 
 #' @title Summarize the classification areas into a set of polygons
-#' @name summarizeOneByPolygons
 #' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
 #'
 #' @description This function returns a table separating the
 #' classifications according to the overlapping areas with a
 #' set of polygons.
+#' @param data A raster::raster data.
+#' @param layer Name of the layer with the polygons.
+#' @param attribute Name of an attribute from the polygons data to be shown in the progress.
+#' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export
-summarizeOneByPolygons <- function(data, layer, attribute, log = TRUE){
-  brazil <- sf::st_read(dsn <- mypath("Shapefiles/Brasil"), layer = layer, quiet=TRUE) %>%
+summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
+  brazil <- sf::read_sf(dsn <- basePath("Shapefiles/Brasil"), layer = layer) %>%
     sf::st_transform("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")
 
   quantity <- dim(brazil)[1]
 
   mynames <- as.data.frame(brazil)[,attribute]
 
-  output <- matrix(0, ncol = quantity, nrow = length(sits_validate.env$classes_sits))
+  output <- matrix(0, ncol = quantity, nrow = length(sits.validate.env$classes_sits))
   colnames(output) <- mynames
-  rownames(output) <- sits_validate.env$classes_sits
+  rownames(output) <- sits.validate.env$classes_sits
 
   for(i in 1:quantity){
     cat(paste0("Processing ", i, "/", quantity, " object '", mynames[i], "'\n"))
@@ -39,45 +42,41 @@ summarizeOneByPolygons <- function(data, layer, attribute, log = TRUE){
 }
 
 #' @title Summarize the classification areas in each Brazilian municipality.
-#' @name summarizeOneByMunicipalities
 #' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
-#'
 #' @description This function returns the area of each class within
 #' each Brazilian municipality. The output is a data.frame with the
 #' same row names (classes) and municipalities as columns. It uses file
 #' 55mu2500gsd_removednull.shp, with 5,564 municipalities.
+#' @param data A raster::raster data.
+#' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export
-summarizeOneByMunicipalities <- function(data, log = TRUE){
-  summarizeOneByPolygons(data, "55mu2500gsd_removednull", "Nome_Munic", log)
+summarizeOneByMunicipalities <- function(data, progress = TRUE){
+  summarizeOneByPolygons(data, "55mu2500gsd_removednull", "Nome_Munic", progress)
 }
 
 #' @title Summarize the classification areas in each Brazilian municipality.
-#' @name summarizeOneByMunicipalities
 #' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
-#'
 #' @description This function returns the area of each class within
 #' each Brazilian municipality. The output is a data.frame with the
 #' same row names (classes) and municipalities as columns. It uses file
 #' UFEBRASIL.shp, with 27 objects.
-#' @param data A raster::raster object.
-#' @param log A boolean value indicating whether a log should be printed along the execution.
+#' @param data A raster::raster data.
+#' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export
-summarizeOneByStates <- function(data, log = TRUE){
-  summarizeOneByPolygons(data, "UFEBRASIL", "NM_ESTADO", log)
+summarizeOneByStates <- function(data, progress = TRUE){
+  summarizeOneByPolygons(data, "UFEBRASIL", "NM_ESTADO", progress)
 }
 
 #' @title Summarize the classification areas in each Brazilian simulation units.
-#' @name summarizeOneByMunicipalities
 #' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
-#'
 #' @description This function returns the area of each class within
 #' each Brazilian municipality. The output is a data.frame with the
 #' same row names (classes) and municipalities as columns. It uses file
 #' 55mu2500gsd_removednull.shp, with 18,194 simulation units.
-#' @param data A raster::raster object.
-#' @param log A boolean value indicating whether a log should be printed along the execution.
+#' @param data A raster::raster data.
+#' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export
-summarizeOneBySimU <- function(data, log = TRUE){
-  summarizeOneByPolygons(data, "simu_brazil_disjoint_units", "grd30", log)
+summarizeOneBySimU <- function(data, progress = TRUE){
+  summarizeOneByPolygons(data, "simu_brazil_disjoint_units", "grd30", progress)
 }
 
