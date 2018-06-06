@@ -9,5 +9,9 @@ ADN2015 <- raster::raster(paste0(classificationsDir, "AlvoradaDoNorte_GO/classif
 result1 <- summarizeOneByMunicipalities(LUC2015)
 result2 <- summarizeOneByMunicipalities(ADN2015)
 
-simplifyOutput(result1)
-simplifyOutput(result1 + result2)
+result1
+result2
+
+output <- joinClassifications(list(result1, result2))
+
+output

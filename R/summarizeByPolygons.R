@@ -17,28 +17,34 @@ summarizePixels <- function(pixels, resolution){ # supposes that the resolution 
 #' @seealso summarizeOneByMunicipalities summarizeOneByStates summarizeOneBySimU
 #' @export
 summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
-  brazil <- sf::read_sf(dsn <- basePath("Shapefiles/Brasil"), layer = layer) %>%
-    sf::st_transform("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")
+  brazil <- sf::read_sf(dsn <- basePath("shapes"), layer = layer) %>%
+    sf::st_transform(sits.validate.env$crs_sits)
 
   quantity <- dim(brazil)[1]
-
   mynames <- as.data.frame(brazil)[,attribute]
-
-  output <- matrix(0, ncol = quantity, nrow = length(sits.validate.env$classes_sits))
-  colnames(output) <- mynames
-  rownames(output) <- sits.validate.env$classes_sits
+  output <- tibble(rowname = sits.validate.env$classes_sits)
 
   for(i in 1:quantity){
-    cat(paste0("Processing ", i, "/", quantity, " object '", mynames[i], "'\n"))
+    myname <- mynames[i]
+    printProgress(paste0("Processing ", i, "/", quantity, " object '", myname, "'"), progress)
 
     polygon <- brazil[i,]
+    summ <- raster::extract(data, polygon)
 
-    summ <- raster::extract(data, polygon) %>% summarizePixels(degreesToMeters(raster::res(data)))
-    columns <- strtoi(rownames(t(t(summ))))
-    output[columns, i] <- summ[,1]
+    if(!is.null(summ)){
+      summ <- summarizePixels(summ, degreesToMeters(raster::res(data)))
+      columns <- strtoi(rownames(summ))
+      summ <- as.vector(summ)
+
+      if(sum(summ > 0)){
+          output[, myname] = 0
+          output[columns, myname] <- summ
+      }
+    }
   }
 
-  output
+  # remove all lines (rows) that have only zeros
+  output %>% filter(rowSums(.[-1]) != 0)
 }
 
 #' @title Summarize the classification areas in each Brazilian municipality.

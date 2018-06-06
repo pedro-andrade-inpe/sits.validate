@@ -12,6 +12,24 @@ printProgress <- function(value, progress)
 #' @export
 degreesToMeters <- function(degrees) degrees * 111000
 
+#' @title Join tibles summing their areas
+#' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
+#' @description This function joins a list of tibbles and sums
+#' their areas. It preserves the rows and sums the values whose
+#' columns are the same.
+#' @param classes A list of tibbles with classifications
+#' @export
+joinClassifications <- function(classes){
+  binded <- rbind.fill(classes) %>% # fill keeping the same columns
+    ddply(.(rowname), function(x) colSums(x[-1], na.rm = TRUE))
+
+  output <- tibble(rowname = sits.validate.env$classes_sits) %>%
+    full_join(binded, by = "rowname") %>%
+    na.omit()
+
+  output
+}
+
 #' @title Simplify the comparison output
 #' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
 #' @description This function returns a simplified version of

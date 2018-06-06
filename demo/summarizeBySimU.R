@@ -1,5 +1,4 @@
 require(sits.validate)
-require(dplyr)
 
 classificationFiles <- Sys.glob("~/TWDTWAmazoniaCerrado/Classificacoes/ROLF/Cerrado_20180514/*")
 
@@ -11,20 +10,18 @@ cerrado <- sf::read_sf(dsn = basePath("shapes"), layer = "br_biomes") %>%
   sf::st_transform(crs_sits)
 
 process_file <- function(filename){
-    summarizeOneBySimU(raster::raster(filename) %>% raster::mask(cerrado))
+  summarizeOneBySimU(raster::raster(filename) %>% raster::mask(cerrado))
 }
 
 ## use mclapply instead
-result <- lapply(classificationFiles[1:2], process_file)
+result <- lapply(classificationFiles[2:3], process_file)
 
-## compute the sum of all results
-mysum <- Reduce("+", result)
+result[[1]]
+result[[2]]
 
-simple <- simplifyOutput(mysum)
-simple
-dim(simple)
+output <- joinClassifications(result)
+output
+
+## TODO: join the clases according to needed in globiom
 
 ## TODO: save to csv file
-
-
-

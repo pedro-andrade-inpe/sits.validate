@@ -4,8 +4,8 @@
 #' instead of the absolute values.
 #' @param result A classification result.
 #' @export
-summarizeAsPercentage = function(result){
-  sum_columns = apply(result, 2, sum)
+summarizeAsPercentage <- function(result){
+  sum_columns <- apply(result, 2, sum)
   result/sum(sum_columns)*100
 }
 
@@ -13,8 +13,8 @@ summarizeAsPercentage = function(result){
 #' @description The total agreement for cerrado mask includes
 #' @param result A classification result.
 #' @export
-totalValidationCerradoMask = function(result){
-  percentages = summarizeAsPercentage(result)
+totalValidationCerradoMask <- function(result){
+  percentages <- summarizeAsPercentage(result)
   return(sum(percentages[1:5, 1]) + sum(percentages[9:13, 2]))
 }
 

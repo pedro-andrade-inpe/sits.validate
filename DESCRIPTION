@@ -15,11 +15,15 @@ Imports:
     rgeos,
     dplyr,
     sp,
+    tibble,
+    tidyr,
+    plyr,
     methods,
     parallel
 RoxygenNote: 6.0.1
 Collate:
     'env.R'
+    'pipe.R'
     'zzz.R'
     'compareCerradoMask.R'
     'compareTCCerrado.R'
