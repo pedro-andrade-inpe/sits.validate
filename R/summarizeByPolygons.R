@@ -2,19 +2,19 @@
 # Convert a vector of pixels into a summary with the areas of each class
 summarizePixels <- function(pixels, resolution){ # supposes that the resolution is in meters
   result <- table(pixels)
-  t(t(round(result * resolution[1] * resolution[2] / 10000))) # to hectares
+  round(result * resolution[1] * resolution[2] / 10000) # to hectares
 }
 
 #' @title Summarize the classification areas into a set of polygons
 #' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
-#'
 #' @description This function returns a table separating the
 #' classifications according to the overlapping areas with a
-#' set of polygons.
+#' set of polygons. It uses files within Dropbox/sits.validate/shapes.
 #' @param data A raster::raster data.
 #' @param layer Name of the layer with the polygons.
 #' @param attribute Name of an attribute from the polygons data to be shown in the progress.
 #' @param progress A boolean value indicating whether this function should print its progress. Default is true.
+#' @seealso summarizeOneByMunicipalities summarizeOneByStates summarizeOneBySimU
 #' @export
 summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
   brazil <- sf::read_sf(dsn <- basePath("Shapefiles/Brasil"), layer = layer) %>%
@@ -46,7 +46,7 @@ summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
 #' @description This function returns the area of each class within
 #' each Brazilian municipality. The output is a data.frame with the
 #' same row names (classes) and municipalities as columns. It uses file
-#' 55mu2500gsd_removednull.shp, with 5,564 municipalities.
+#' Dropbox/sits.validate/shapes/55mu2500gsd_removednull.shp, with 5,564 municipalities.
 #' @param data A raster::raster data.
 #' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export
@@ -59,7 +59,7 @@ summarizeOneByMunicipalities <- function(data, progress = TRUE){
 #' @description This function returns the area of each class within
 #' each Brazilian municipality. The output is a data.frame with the
 #' same row names (classes) and municipalities as columns. It uses file
-#' UFEBRASIL.shp, with 27 objects.
+#' Dropbox/sits.validate/shapes/UFEBRASIL.shp, with 27 objects.
 #' @param data A raster::raster data.
 #' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export
@@ -72,7 +72,7 @@ summarizeOneByStates <- function(data, progress = TRUE){
 #' @description This function returns the area of each class within
 #' each Brazilian municipality. The output is a data.frame with the
 #' same row names (classes) and municipalities as columns. It uses file
-#' 55mu2500gsd_removednull.shp, with 18,194 simulation units.
+#' Dropbox/sits.validate/shapes/55mu2500gsd_removednull.shp, with 18,194 simulation units.
 #' @param data A raster::raster data.
 #' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export

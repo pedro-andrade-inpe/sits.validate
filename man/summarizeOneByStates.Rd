@@ -15,7 +15,7 @@ summarizeOneByStates(data, progress = TRUE)
 This function returns the area of each class within
 each Brazilian municipality. The output is a data.frame with the
 same row names (classes) and municipalities as columns. It uses file
-UFEBRASIL.shp, with 27 objects.
+Dropbox/sits.validate/shapes/UFEBRASIL.shp, with 27 objects.
 }
 \author{
 Pedro R. Andrade, \email{pedro.andrade@inpe.br}

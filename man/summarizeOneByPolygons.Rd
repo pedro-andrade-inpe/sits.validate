@@ -18,7 +18,10 @@ summarizeOneByPolygons(data, layer, attribute, progress = TRUE)
 \description{
 This function returns a table separating the
 classifications according to the overlapping areas with a
-set of polygons.
+set of polygons. It uses files within Dropbox/sits.validate/shapes.
+}
+\seealso{
+summarizeOneByMunicipalities summarizeOneByStates summarizeOneBySimU
 }
 \author{
 Pedro R. Andrade, \email{pedro.andrade@inpe.br}

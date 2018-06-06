@@ -36,11 +36,11 @@ totalValidationTCCerrado <- function(result){
 #' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export
 compareTCCerrado <- function(data, progress = TRUE){
-  tccerrado2013 <- raster::raster(basePath("/MapasReferencia/TerraClassCerrado/TCCerrado_2013_GCS_30m/TCCerrado_2013_geo.tif"))
+  tccerrado2013 <- raster::raster(basePath("/cerrado/terraClass/TCCerrado_2013_geo.tif"))
 
-  polygons <- raster::rasterToPolygons(data, dissolve = TRUE) #%>%
-  # st_as_sf() %>%
-  #  st_transform("+proj=longlat +ellps=GRS80 +no_defs")
+  polygons <- raster::rasterToPolygons(data, dissolve = TRUE) %>%
+    sf::st_as_sf() %>%
+    sf::st_transform("+proj=longlat +ellps=GRS80 +no_defs")
 
   output <- matrix(0, ncol = length(sits.validate.env$classificacao_tc), nrow = length(sits.validate.env$classes_sits))
   colnames(output) <- sits.validate.env$classificacao_tc_simplificada

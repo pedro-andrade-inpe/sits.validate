@@ -33,7 +33,7 @@ compareWithCerradoMask <- function(data, progress = TRUE){
 
   printProgress("2/7 - Loading mask 1/3 (slow)", progress)
 
-  mask1 <- sf::read_sf(dsn = basePath("MapasReferencia/Cerrado"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol")
+  mask1 <- sf::read_sf(dsn = basePath("cerrado/prodesMask"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol")
   submask1a <- mask1[boxluc, op = sf::st_overlaps]
   submask1b <- mask1[boxluc, op = sf::st_within]
   rm(mask1)
@@ -41,7 +41,7 @@ compareWithCerradoMask <- function(data, progress = TRUE){
 
   printProgress("3/7 - Loading mask 2/3 (slow)", progress)
 
-  mask2 <- sf::read_sf(dsn = basePath("MapasReferencia/Cerrado"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol_split1")
+  mask2 <- sf::read_sf(dsn = basePath("cerrado/prodesMask"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol_split1")
   submask2a <- mask2[boxluc, op = sf::st_overlaps]
   submask2b <- mask2[boxluc, op = sf::st_within]
   rm(mask2)
@@ -49,7 +49,7 @@ compareWithCerradoMask <- function(data, progress = TRUE){
 
   printProgress("4/7 - Loading mask 3/3", progress)
 
-  mask3 <- sf::read_sf(dsn = basePath("MapasReferencia/Cerrado"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol_split2")
+  mask3 <- sf::read_sf(dsn = basePath("cerrado/prodesMask"), layer = "MASC_CERR_2000_2015_lote_final_cor_pol_split2")
   submask3a <- mask3[boxluc, op = sf::st_overlaps]
   submask3b <- mask3[boxluc, op = sf::st_within]
   rm(mask3)
@@ -58,7 +58,7 @@ compareWithCerradoMask <- function(data, progress = TRUE){
   printProgress("5/7 - Joining the three masks", progress)
 
   submask <- rbind(submask1a, submask1b, submask2a, submask2b, submask3a, submask3b) %>%
-    sf::st_transform("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs") %>%
+    sf::st_transform(sits.validate.env$crs_sits) %>%
     sf::st_combine() %>%
     sf::st_sf()
 

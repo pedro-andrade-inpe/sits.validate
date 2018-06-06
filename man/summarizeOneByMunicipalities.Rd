@@ -15,7 +15,7 @@ summarizeOneByMunicipalities(data, progress = TRUE)
 This function returns the area of each class within
 each Brazilian municipality. The output is a data.frame with the
 same row names (classes) and municipalities as columns. It uses file
-55mu2500gsd_removednull.shp, with 5,564 municipalities.
+Dropbox/sits.validate/shapes/55mu2500gsd_removednull.shp, with 5,564 municipalities.
 }
 \author{
 Pedro R. Andrade, \email{pedro.andrade@inpe.br}
