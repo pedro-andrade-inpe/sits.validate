@@ -2,12 +2,12 @@
 
 export("%>%")
 export(baseDir)
-export(basePath)
 export(compareTCCerrado)
 export(compareWithCerradoMask)
 export(degreesToMeters)
 export(joinClassifications)
 export(rasterBoxToPolygon)
+export(setBaseDir)
 export(simplifyOutput)
 export(summarizeAsPercentage)
 export(summarizeOneByMunicipalities)

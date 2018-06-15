@@ -1,6 +1,6 @@
 
 sits.validate.env <- new.env()
-sits.validate.env$base_dir <- "~/Dropbox/sits.validate/"
+sits.validate.env$base_dir <- "~/Dropbox/sits.validate"
 sits.validate.env$crs_sits <- "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs"
 
 sits.validate.env$classes_sits <- c(
@@ -62,21 +62,32 @@ sits.validate.env$classes_mask <- c(
 #' @title Base path
 #' @description Return a path according to the base directory of the package.
 #' @param path A path that within the base directory.
-#' @seealso baseDir
+#' @seealso setBaseDir
 #' @export
-basePath <- function(path) paste0(sits.validate.env$base_dir, path)
+baseDir <- function(path){
+  normalized <- paste0(sits.validate.env$base_dir, "/", path) %>% normalizePath
+  paste0(normalized, "/")
+}
 
-#' @title Get or set base directory
+#' @title Set base directory
 #' @description Set the base directory (if the argument is used).
 #' It returns the current base directory.
 #' All the data used internally by the package are stored in this path. It is a
 #' Dropbox folder that cannot be stored in GitHub due to its size. If you do not
 #' have access to this folder please contact the package's maintainer.
 #' @param dir A directory.
+#' @seealso baseDir
 #' @export
-baseDir <- function(dir = NULL){
+setBaseDir <- function(dir = NULL){
     if (!is.null(dir))
-        sits.validate.env$base_dir <-  dir
+        sits.validate.env$base_dir <- dir
 
     return(sits.validate.env$base_dir)
 }
+
+#' @title Sits validate environment
+#' @description Return the environment of sits.validate, with variables such as
+#' base directory, and projection used internally.
+#' @export
+getSitsValidateEnv <- function() sits.validate.env
+

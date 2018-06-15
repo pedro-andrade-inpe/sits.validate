@@ -2,17 +2,16 @@
 % Please edit documentation in R/env.R
 \name{baseDir}
 \alias{baseDir}
-\title{Get or set base directory}
+\title{Base path}
 \usage{
-baseDir(dir = NULL)
+baseDir(path)
 }
 \arguments{
-\item{dir}{A directory.}
+\item{path}{A path that within the base directory.}
 }
 \description{
-Set the base directory (if the argument is used).
-It returns the current base directory.
-All the data used internally by the package are stored in this path. It is a
-Dropbox folder that cannot be stored in GitHub due to its size. If you do not
-have access to this folder please contact the package's maintainer.
+Return a path according to the base directory of the package.
+}
+\seealso{
+setBaseDir
 }
