@@ -19,6 +19,7 @@ Imports:
     tidyr,
     plyr,
     methods,
+    magrittr,
     parallel
 RoxygenNote: 6.0.1
 Collate:
@@ -28,6 +29,7 @@ Collate:
     'compareCerradoMask.R'
     'compareTCCerrado.R'
     'gis.R'
+    'split.R'
     'summarizeByPolygons.R'
     'utils.R'
 Suggests: 
