@@ -91,3 +91,11 @@ setBaseDir <- function(dir = NULL){
 #' @export
 getSitsValidateEnv <- function() sits.validate.env
 
+#' @title Tif files within a base directory
+#' @description Returns a vector with all tif files within a directory inside base directory.
+#' @param dir A directory inside base directory.
+#' @export
+getTifFiles <- function(dir){
+  list.files(baseDir(dir), "*.tif", full.names = TRUE)
+}
+
