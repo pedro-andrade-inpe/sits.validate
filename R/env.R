@@ -1,6 +1,7 @@
 
 sits.validate.env <- new.env()
-sits.validate.env$base_dir <- "~/Dropbox/sits.validate"
+#sits.validate.env$base_dir will be created by zzz.R
+
 sits.validate.env$crs_sits <- "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs"
 
 sits.validate.env$classes_sits <- c(
