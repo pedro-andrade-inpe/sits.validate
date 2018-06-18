@@ -44,7 +44,7 @@ summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
   }
 
   # remove all lines (rows) that have only zeros
-  output %>% dplyr::filter(rowSums(.[-1]) != 0)
+  output %>% dplyr::filter(rowSums(plyr::.[-1]) != 0)
 }
 
 #' @title Summarize the classification areas in each Brazilian municipality.

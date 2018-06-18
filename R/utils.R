@@ -20,12 +20,12 @@ degreesToMeters <- function(degrees) degrees * 111000
 #' @param classes A list of tibbles with classifications
 #' @export
 joinClassifications <- function(classes){
-  binded <- rbind.fill(classes) %>% # fill keeping the same columns
-    ddply(.(rowname), function(x) colSums(x[-1], na.rm = TRUE))
+  binded <- plyr::rbind.fill(classes) %>% # fill keeping the same columns
+    plyr::ddply("rowname", function(x) colSums(x[-1], na.rm = TRUE))
 
-  output <- tibble(rowname = sits.validate.env$classes_sits) %>%
-    full_join(binded, by = "rowname") %>%
-    na.omit()
+  output <- tibble::tibble(rowname = sits.validate.env$classes_sits) %>%
+    dplyr::full_join(binded, by = "rowname") %>%
+    stats::na.omit()
 
   output
 }

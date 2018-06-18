@@ -1,4 +1,5 @@
 
+
 require(sits.validate)
 
 classificationsDir = "~/TWDTWAmazoniaCerrado/RasterData/"

@@ -8,21 +8,22 @@
 #' @seealso splitRasters
 #' @export
 splitRaster <- function(inputFile, outputDir, n.side){
-  r <- raster(inputFile)
+  r  <- raster::raster(inputFile)
+  er <- raster::extent(r)
 
-  dx     <- (extent(r)[2] - extent(r)[1]) / n.side  # extent of one tile in x direction
-  dy     <- (extent(r)[4] - extent(r)[3]) / n.side  # extent of one tile in y direction
-  xs     <- seq(extent(r)[1], by = dx, length = n.side) #lower left x-coordinates
-  ys     <- seq(extent(r)[3], by = dy, length = n.side) #lower left y-coordinates
-  cS     <- expand.grid(x = xs, y = ys)
+  dx <- (er[2] - er[1]) / n.side  # extent of one tile in x direction
+  dy <- (er[4] - er[3]) / n.side  # extent of one tile in y direction
+  xs <- seq(er[1], by = dx, length = n.side) #lower left x-coordinates
+  ys <- seq(er[3], by = dy, length = n.side) #lower left y-coordinates
+  cS <- expand.grid(x = xs, y = ys)
 
   ## loop over extents and crop
   for(i in 1:nrow(cS)) {
     cat(paste0("tile ", i, "/", nrow(cS), "\n"))
     ex1 <- c(cS[i, 1], cS[i, 1] + dx, cS[i, 2], cS[i, 2] + dy)  # create extents for cropping raster
-    cl1 <- crop(r, ex1, progress = "text")
+    cl1 <- raster::crop(r, ex1, progress = "text")
     outputFile <- paste0(tools::file_path_sans_ext(basename(inputFile)), "-tile-", i, ".tif")
-    writeRaster(cl1, paste0(outputDir, "/", outputFile), progress = "text", overwrite = TRUE)
+    raster::writeRaster(cl1, paste0(outputDir, "/", outputFile), progress = "text", overwrite = TRUE)
   }
 }
 

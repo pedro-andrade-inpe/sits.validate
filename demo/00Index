@@ -1,3 +1,6 @@
+generateWaterMask          Generate water masks that overlaps pixel by pixel with sits data
+reprojectWater             Reproject splitted water classification files to sits format
+splitWater                 Split water classification files into 4 smaller ones
 summarizeByMunicipalities  Summarize the classification output using Brazilian municipalities
 summarizeByStates          Summarize the classification output using Brazilian states
 summarizeBySimU            Summarize the classification output using Simulation Units

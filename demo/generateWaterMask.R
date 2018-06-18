@@ -38,16 +38,12 @@ generateWaterMask <- function(filename){
     }
   }
 
-  outputname <- baseDir(paste0("water/final/", basename(filename))) %>% substr(1, 6), ".tif")
+  outputname <- baseDir(paste0("water/final/", basename(filename) %>% substr(1, 6), ".tif"))
   raster::writeRaster(result, outputname)
   return(invisible())
 }
 
 files <- filesWithUniqueBox("classificacoes")
-
-
-files <- files[-1]
-
 
 for(file in files){
   cat(paste0("Processing '", basename(file), "'\n"))
