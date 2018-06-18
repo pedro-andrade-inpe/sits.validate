@@ -17,12 +17,12 @@ summarizePixels <- function(pixels, resolution){ # supposes that the resolution 
 #' @seealso summarizeOneByMunicipalities summarizeOneByStates summarizeOneBySimU
 #' @export
 summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
-  brazil <- sf::read_sf(dsn <- basePath("shapes"), layer = layer) %>%
+  brazil <- sf::read_sf(dsn = baseDir("shapes"), layer = layer) %>%
     sf::st_transform(sits.validate.env$crs_sits)
 
   quantity <- dim(brazil)[1]
   mynames <- as.data.frame(brazil)[,attribute]
-  output <- tibble(rowname = sits.validate.env$classes_sits)
+  output <- tibble::tibble(rowname = sits.validate.env$classes_sits)
 
   for(i in 1:quantity){
     myname <- mynames[i]
@@ -44,7 +44,7 @@ summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
   }
 
   # remove all lines (rows) that have only zeros
-  output %>% filter(rowSums(.[-1]) != 0)
+  output %>% dplyr::filter(rowSums(.[-1]) != 0)
 }
 
 #' @title Summarize the classification areas in each Brazilian municipality.

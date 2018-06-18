@@ -7,11 +7,11 @@
 splitRasters(inputDir, outputDir, n.side)
 }
 \arguments{
+\item{inputDir}{Name of the input directory.}
+
 \item{outputDir}{Output directory where the files will be saved.}
 
 \item{n.side}{Number of splits in each side (x and y).}
-
-\item{inputFile}{Name of the input file}
 }
 \description{
 Split all tif files within a directory, each one into n.side ^ 2 files.

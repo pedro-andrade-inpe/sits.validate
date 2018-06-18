@@ -36,7 +36,7 @@ totalValidationTCCerrado <- function(result){
 #' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export
 compareTCCerrado <- function(data, progress = TRUE){
-  tccerrado2013 <- raster::raster(basePath("/cerrado/terraClass/TCCerrado_2013_geo.tif"))
+  tccerrado2013 <- raster::raster(baseDir("cerrado/terraClass/TCCerrado_2013_geo.tif"))
 
   polygons <- raster::rasterToPolygons(data, dissolve = TRUE) %>%
     sf::st_as_sf() %>%

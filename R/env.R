@@ -66,7 +66,6 @@ sits.validate.env$classes_mask <- c(
 #' @export
 baseDir <- function(path){
   normalized <- paste0(sits.validate.env$base_dir, "/", path) %>% normalizePath
-  paste0(normalized, "/")
 }
 
 #' @title Set base directory

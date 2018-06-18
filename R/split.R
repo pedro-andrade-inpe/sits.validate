@@ -2,7 +2,7 @@
 #' @title Split a raster file
 #' @description Split a raster file into n.side ^ 2 files. Each output file
 #' will be have the same name of the input file plut -tile-<number>.
-#' @param inputFile Name of the input file
+#' @param inputFile Name of the input file.
 #' @param outputDir Output directory where the files will be saved.
 #' @param n.side Number of splits in each side (x and y).
 #' @seealso splitRasters
@@ -28,7 +28,7 @@ splitRaster <- function(inputFile, outputDir, n.side){
 
 #' @title Split all rasters within a given directory
 #' @description Split all tif files within a directory, each one into n.side ^ 2 files.
-#' @param inputFile Name of the input file
+#' @param inputDir Name of the input directory.
 #' @param outputDir Output directory where the files will be saved.
 #' @param n.side Number of splits in each side (x and y).
 #' @seealso splitRaster

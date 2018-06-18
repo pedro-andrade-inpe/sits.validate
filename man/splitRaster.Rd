@@ -7,7 +7,7 @@
 splitRaster(inputFile, outputDir, n.side)
 }
 \arguments{
-\item{inputFile}{Name of the input file}
+\item{inputFile}{Name of the input file.}
 
 \item{outputDir}{Output directory where the files will be saved.}
 
