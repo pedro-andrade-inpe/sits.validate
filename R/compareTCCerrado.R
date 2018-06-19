@@ -42,28 +42,29 @@ compareTCCerrado <- function(data, progress = TRUE){
     sf::st_as_sf() %>%
     sf::st_transform("+proj=longlat +ellps=GRS80 +no_defs")
 
-  output <- matrix(0, ncol = length(sits.validate.env$classificacao_tc), nrow = length(sits.validate.env$classes_sits))
-  colnames(output) <- sits.validate.env$classificacao_tc_simplificada
-  rownames(output) <- sits.validate.env$classes_sits
+  mynames <- sits.validate.env$classificacao_tc
+  quantity <- dim(polygons)[1]
+  output <- tibble::tibble(rowname = sits.validate.env$classes_sits)
 
   # update to apply/mclapply
-  quantity <- length(polygons)
-
   for (i in 1:quantity){
     p1 <- polygons[i,]
 
-    line <- p1@data[1,1] #%>% st_set_geometry(NULL)
-    #line = line[1,1]
+    line <- as.data.frame(p1)[,1]
 
     printProgress(paste0("processing ", i, "/", quantity, " (class ", line, ")"), progress)
 
-    res1 <- raster::extract(tccerrado2013, p1) # do this for each polygon above
+    res1 <- raster::extract(tccerrado2013, p1, progress = "text") # do this for each polygon above
     summ <- summarizePixels(res1[[1]], degreesToMeters(raster::res(tccerrado2013)))
 
-    columns <- strtoi(rownames(t(t(summ))))
+    columns <- strtoi(rownames(summ))
+    summ <- as.vector(summ)
 
-    output[line, columns] <- summ[,1]
+    myname <- mynames[line]
+
+    output[, myname] <- 0
+    output[columns, myname] <- summ
   }
 
-  output
+  output %>% dplyr::filter(rowSums(.[-1]) != 0)
 }
