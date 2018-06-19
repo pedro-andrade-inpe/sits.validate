@@ -17,34 +17,38 @@ summarizePixels <- function(pixels, resolution){ # supposes that the resolution 
 #' @seealso summarizeOneByMunicipalities summarizeOneByStates summarizeOneBySimU
 #' @export
 summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
-  brazil <- sf::read_sf(dsn = baseDir("shapes"), layer = layer) %>%
+  polygons <- sf::read_sf(dsn = baseDir("shapes"), layer = layer) %>%
     sf::st_transform(sits.validate.env$crs_sits)
 
-  quantity <- dim(brazil)[1]
-  mynames <- as.data.frame(brazil)[,attribute]
+  quantity <- dim(polygons)[1]
+  mynames <- as.data.frame(polygons)[,attribute]
   output <- tibble::tibble(rowname = sits.validate.env$classes_sits)
 
   for(i in 1:quantity){
     myname <- mynames[i]
-    printProgress(paste0("Processing ", i, "/", quantity, " object '", myname, "'"), progress)
 
-    polygon <- brazil[i,]
-    summ <- raster::extract(data, polygon)
+    polygon <- polygons[i,]
 
-    if(!is.null(summ)){
-      summ <- summarizePixels(summ, degreesToMeters(raster::res(data)))
+    inter <- raster::intersect(raster::extent(polygon), raster::extent(data))
+
+    if(!is.null(inter)){
+      printProgress(paste0("Processing ", i, "/", quantity, " object '", myname, "'"), progress)
+
+      summ <- raster::extract(data, polygon, progress = "text") %>%
+        summarizePixels(degreesToMeters(raster::res(data)))
+
       columns <- strtoi(rownames(summ))
       summ <- as.vector(summ)
 
       if(sum(summ > 0)){
-          output[, myname] = 0
+          output[, myname] <- 0
           output[columns, myname] <- summ
       }
     }
   }
 
   # remove all lines (rows) that have only zeros
-  output %>% dplyr::filter(rowSums(plyr::.[-1]) != 0)
+  output %>% dplyr::filter(rowSums(.[-1]) != 0)
 }
 
 #' @title Summarize the classification areas in each Brazilian municipality.
