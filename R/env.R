@@ -66,7 +66,7 @@ sits.validate.env$classes_mask <- c(
 #' @seealso setBaseDir
 #' @export
 baseDir <- function(path){
-  normalized <- paste0(sits.validate.env$base_dir, "/", path) %>% normalizePath
+  paste0(sits.validate.env$base_dir, "/", path) %>% normalizePath
 }
 
 #' @title Set base directory
@@ -96,6 +96,6 @@ getSitsValidateEnv <- function() sits.validate.env
 #' @param dir A directory inside base directory.
 #' @export
 getTifFiles <- function(dir){
-  list.files(baseDir(dir), "*.tif", full.names = TRUE)
+  list.files(baseDir(dir), "*.tif", full.names = TRUE) %>% normalizePath
 }
 
