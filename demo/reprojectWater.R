@@ -4,7 +4,7 @@ require(dplyr)
 require(raster)
 require(gdalUtils)
 
-waterFiles <- list.files(baseDir("/water/split"), "*.tif", full.names = TRUE)
+waterFiles <- getTifFiles("/water/split")
 crs_sits <- getSitsValidateEnv()$crs_sits
 outputDir <- baseDir("/water/reproject")
 
@@ -16,12 +16,9 @@ for(file in waterFiles){
   outputFile <- paste0(outputDir, "/", name)
   cat(paste0("Processing '", name, "'\n"))
   gdalwarp(file, outputFile, "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0", crs_sits, r = "near")
-
 }
 
 ######################################
-
-
 cells <- mydim[1]
 
 # Remove all values but 1 (which will be used as mask)
@@ -46,7 +43,6 @@ cleanValues(myraster, outputFile)
 
 ###############################################################################
 
-
 result <- raster::calc(myraster, filename = "result-one-class.tif", fun = function(x){
   cat(paste0(count * 100 / cells, "%\n"))
   count <<- count + length(x)
@@ -55,21 +51,10 @@ result <- raster::calc(myraster, filename = "result-one-class.tif", fun = functi
   return(x)
 })
 
-
-
-
 outputFile <- paste0(outputDir, "/", basename(file))
 
-
 s <- f3(r, 5, filename='test')
-
-
-
-dim(result)
-
-raster::unique(result)
 
 raster::writeRaster(result, "result-one-class.tif")
 
 system.time(polygons <- raster::rasterToPolygons(result))
-

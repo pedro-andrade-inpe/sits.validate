@@ -1,6 +1,5 @@
 
 require("sits.validate")
-require(sf)
 
 # This script creates cerrado data based on the SITS classifications,
 # cutting the data with the cerrado polygon (from IBGE), hidrography
@@ -31,7 +30,7 @@ cerradoMask <- function(myraster, year){
   raster::mask(myraster, cerrado, progress = "text")
 }
 
-classificationFiles <- list.files(baseDir("classificacoes-agregado"), full.names = TRUE)
+classificationFiles <- getTifFiles("classificacoes-agregado")
 
 for(file in classificationFiles){
   year <- file %>%
@@ -47,5 +46,6 @@ for(file in classificationFiles){
     waterMask(year) %>%
     cerradoMask(year) %>%
     urbanMask(year) %>%
-    raster::writeRaster(paste0("result-", basename(file)), overwrite=TRUE)
+    raster::writeRaster(paste0("result-", basename(file)), overwrite = TRUE)
 }
+

@@ -1,12 +1,11 @@
 
 require(sits.validate)
 
-classificationFile <- list.files(baseDir("classificacoes-agregado"), full.names = TRUE)[1]
+classificationFile <- getTifFiles("classificacoes-agregado")[1]
 
 result <- raster::raster(classificationFile) %>% raster::raster() # empty raster
 newraster <- raster::raster(result)
-waterFiles <- list.files(baseDir("water/reproject"), "*.tif", full.names = TRUE)
-
+waterFiles <- getTifFiles("water/reproject")
 
 for(water in waterFiles){
   cat(paste0("Processing '", basename(water), "'\n"))

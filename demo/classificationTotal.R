@@ -1,9 +1,8 @@
 
 require(sits.validate)
 require(ggplot2)
-require(XML)
 
-classificationFiles <- getTifFiles("classificacoes-agregado")
+classificationFiles <- getTifFiles("classificacoes-final")
 
 getTotal <- function(file){
   year <- file %>%
@@ -14,10 +13,10 @@ getTotal <- function(file){
   bs <- raster::blockSize(myraster)
   total <- data.frame()
 
-  for (i in 1:bs$n) {
+  for(i in 1:bs$n){
     cat(paste0("Processing block ", i, "/", bs$n, "\n"))
 
-    v <- raster::getValues(myraster, row =bs$row[i], nrows = bs$nrows[i] ) %>%
+    v <- raster::getValues(myraster, row = bs$row[i], nrows = bs$nrows[i]) %>%
       table %>%
       as.data.frame
 
@@ -59,9 +58,8 @@ result$Class <- labels
 
 values <- pal[,"color"]
 names(values) <- as.numeric(pal[,"value"])
-names(values)
 
 ggplot(result) +
   aes(x =Year, y = Total, group = Class, colour = Class) +
-  geom_line() +
+  geom_line(lwd = 1.5) +
   scale_fill_manual(values = values)

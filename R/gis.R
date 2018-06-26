@@ -15,6 +15,15 @@ rasterBoxToPolygon <- function(raster){
   return(p)
 }
 
+#' @title Empty raster from a given raster file
+#' @description Return an empty raster with the same
+#' pixels of a given raster stored into a file.
+#' @param filename Name of a file that stores raster data.
+#' @export
+getEmptyRaster <- function(filename){
+  raster::raster(filename) %>% raster::raster()
+}
+
 #' @title Get sits palette
 #' @description Return the sits palette with the values, colors, and labels.
 #' @param filename File name to be read (a qml file). As default, it uses the

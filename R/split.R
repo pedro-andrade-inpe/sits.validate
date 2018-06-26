@@ -35,7 +35,7 @@ splitRaster <- function(inputFile, outputDir, n.side){
 #' @seealso splitRaster
 #' @export
 splitRasters <- function(inputDir, outputDir, n.side){
-  files <- list.files(inputDir, "*.tif", full.names = TRUE)
+  getTifFiles(inputDir)
 
   for(file in files){
     cat(paste0("processing file ", basename(file), "\n"))
