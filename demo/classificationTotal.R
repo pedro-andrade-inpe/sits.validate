@@ -46,21 +46,10 @@ result <- tt %>%
 result %>% write.csv(., file = "cerrado-total.csv")
 
 result <- read.csv("cerrado-total.csv") %>% tibble::as.tibble()
-result
 
 result$Class = paste(result$Class)
 
-getPalette <- function(file){
-  xml <- XML::xmlParse(file) %>% xmlToList
-
-  palette <- t(as.data.frame(xml$pipe$rasterrenderer$colorPalette))
-
-  rownames(palette) <- NULL
-
-  return(palette)
-}
-
-pal <- getPalette("C:\\Users\\pedro\\Dropbox\\sits.validate\\style_cerrado_13classes.qml")
+pal <- getPalette()
 
 labels <- sapply(result$Class, function(value)
   pal[which(value == pal[,"value"]), "label"])

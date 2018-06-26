@@ -59,4 +59,3 @@ simplifyOutput <- function(output){
   # final output comparing the two data
   output
 }
-
