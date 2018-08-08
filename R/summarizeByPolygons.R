@@ -23,18 +23,18 @@ summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
   quantity <- dim(polygons)[1]
   mynames <- as.data.frame(polygons)[,attribute]
   output <- tibble::tibble(rowname = sits.validate.env$classes_sits)
+  data_extent <- raster::extent(data)
 
   for(i in 1:quantity){
     myname <- mynames[i]
-
     polygon <- polygons[i,]
 
-    inter <- raster::intersect(raster::extent(polygon), raster::extent(data))
+    inter <- raster::intersect(raster::extent(polygon), data_extent)
 
     if(!is.null(inter)){
       printProgress(paste0("Processing ", i, "/", quantity, " object '", myname, "'"), progress)
 
-      summ <- raster::extract(data, polygon, progress = "text") %>%
+      summ <- raster::extract(data, polygon) %>%
         summarizePixels(degreesToMeters(raster::res(data)))
 
       columns <- strtoi(rownames(summ))

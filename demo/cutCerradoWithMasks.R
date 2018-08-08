@@ -41,11 +41,13 @@ for(file in classificationFiles){
 
   cat(paste0("Processing year ", year, "\n"))
 
+  outputfile <- baseDir(paste0("classificacoes-final/result-", basename(file)))
+
   file %>%
     raster::raster() %>%
     waterMask(year) %>%
     cerradoMask(year) %>%
     urbanMask(year) %>%
-    raster::writeRaster(paste0("result-", basename(file)), overwrite = TRUE)
+    raster::writeRaster(outputfile, overwrite = TRUE)
 }
 
