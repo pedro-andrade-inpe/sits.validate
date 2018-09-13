@@ -59,7 +59,11 @@ result$Class <- labels
 values <- pal[,"color"]
 names(values) <- as.numeric(pal[,"value"])
 
+values <- values[-c(1, 17)]
+
+names(values) = unique(result$Class)
+
 ggplot(result) +
   aes(x =Year, y = Total, group = Class, colour = Class) +
   geom_line(lwd = 1.5) +
-  scale_fill_manual(values = values)
+  scale_colour_manual(name = "Class", values = values) +
