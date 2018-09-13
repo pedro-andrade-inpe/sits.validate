@@ -61,9 +61,39 @@ names(values) <- as.numeric(pal[,"value"])
 
 values <- values[-c(1, 17)]
 
+#################################################################
+# Compute the total area of cerrado based on the pixels size
+# and quantity
+data = raster::raster(classificationFiles[1])
+res = raster::res(data)
+resol <- res[1] * res[2]
+
+result$Total <- (result$Total * resol) / 1e6 / 1e6
+###############  m2                      Km2   MKm2
+
 names(values) = unique(result$Class)
 
 ggplot(result) +
-  aes(x =Year, y = Total, group = Class, colour = Class) +
+  aes(x = Year, y = Total, group = Class, colour = Class) +
   geom_line(lwd = 1.5) +
   scale_colour_manual(name = "Class", values = values) +
+  ylab("Total (Mkm^2)")
+
+
+total_cerrado <- dplyr::filter(result, Year == 2016) %>%
+  dplyr::filter(Class %in% c("1. Araguaia", "2. Campo_Cerrado", "3. Cerradao", "4. Cerrado", "5. Cerrado_Rupestre")) %>%
+  dplyr::select(Total) %>%
+  sum()
+total_cerrado
+
+total <- result %>% dplyr::filter(Year == 2016) %>% dplyr::select(Total) %>% sum()
+total
+
+total_pasto <- dplyr::filter(result, Year == 2016 & Class == "9. Pasture") %>%
+    dplyr::select(Total)
+total_pasto
+
+  dplyr::filter(Class %in% c("1. Araguaia", "2. Campo_Cerrado", "3. Cerradao", "4. Cerrado", "5. Cerrado_Rupestre")) %>%
+  dplyr::select(Total) %>%
+  sum()
+
