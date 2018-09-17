@@ -1,10 +1,21 @@
-generateWaterMask          Generate water masks that overlaps pixel by pixel with sits data
-reprojectWater             Reproject splitted water classification files to sits format
-splitWater                 Split water classification files into 4 smaller ones
+applyMasks                 Apply water, urban and cerrado area masks into sits classifications
+buildCerradoMask           Generate a tif file with Cerrado mask (0 = not cerrado, 1 = cerrado)
+buildComparableHansen     Generate a comparable Hansen 2000 data for Cerrado
+buildComparableLapig       Generate a comparable Lapig 2015 data for Cerrado
+buildComparableProdesMask  Generate a comparable Prodes Mask 2015 data for Cerrado
+buildComparableTerraClass  Generate a comparable TerraClass 2013 data for Cerrado
+buildUrbanMask             Generate a urban mask for Cerrado
+buildWaterMask             Generate a water mask for Cerrado
+diffProdesMask             Generate a csv with the differences between sits and Prodes Mask
+diffLapig                  Generate a csv with the differences between sits and Lapig
+diffTerraClass             Generate a csv with the differences between sits and Terra Class Cerrado
+mapLapig                   Generate a map with the differences between sits and Lapig
+mapProdesMask              Generate a map with the differences between sits and Prodes Mask
+mapTerraClass              Generate a map with the differences between sits and TerraClass
+mergeClassifications       Merge all sits classification bricks into one single file per year
+mergeProbClassifications   Merge all sits probanility bricks into one single file per year
+postProcessingPasture      Apply a temporal mask into pasture class P->*->P to P->P->P
 summarizeByMunicipalities  Summarize the classification output using Brazilian municipalities
 summarizeByStates          Summarize the classification output using Brazilian states
 summarizeBySimU            Summarize the classification output using Simulation Units
-cutCerradoWithMasks        Creates data from a set of classification outputs by clipping only Cerrado area
-validateTerraClassCerrado  Compares the classification output with Terra Class Cerrado
-validateCerradoMask        Compares the classification output with Cerrado Mask
-
+summarizeTotal             Summarize the classifications by year

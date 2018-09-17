@@ -1,10 +1,10 @@
 
 require(sits.validate)
 
-prodesmask2013 <- raster::raster(baseDir("cerrado/prodesMask/comparable/prodesmask.tif"))
-sits2013 <- raster::raster(baseDir("classificacoes-final/result-cerrado_2014_8_2015_8.tif"))
+prodesmask2015 <- raster::raster(baseDir("comparable/prodesmask-2015.tif"))
+sits2015 <- raster::raster(baseDir("classificacoes-final/result-cerrado_2014_8_2015_8.tif"))
 
-bs <- raster::blockSize(sits2013)
+bs <- raster::blockSize(sits2015)
 total <- data.frame()
 
 for(i in 1:bs$n){
@@ -12,10 +12,10 @@ for(i in 1:bs$n){
   row <- bs$row[i]
   nrows <- bs$nrows[i]
 
-  blockpr <- raster::getValues(prodesmask2013, row = row, nrows = nrows)
+  blockpr <- raster::getValues(prodesmask2015, row = row, nrows = nrows)
   blockpr[is.na(blockpr)] <- 0
 
-  blocksi <- raster::getValues(sits2013, row = row, nrows = nrows)
+  blocksi <- raster::getValues(sits2015, row = row, nrows = nrows)
 
   for(prvalue in unique(blockpr)){
     sivalues = blocksi[which(blockpr == prvalue)] %>% table() %>% as.data.frame()
@@ -38,4 +38,4 @@ totalValidationCerradoMask(result) # 0.729
 
 res <- summarizeAsPercentage(result)
 res <- round(res, 2)
-write.table(res, "result-pm.csv", sep=",")
+write.table(res, "diff-prodes-mask.csv", sep=",")

@@ -1,5 +1,34 @@
 
 require(sits.validate)
+require(dplyr)
+require(gdalUtils)
+
+# To reproduce everything from scratch, first download water data using
+# baseDir("water/download-water.sh").
+
+# 1st: split water files into smaller ones
+
+outputDir <- normalizePath(baseDir("water/split"))
+inputDir <- baseDir("water")
+splitRasters(inputDir, outputDir, 4)
+
+# 2nd: seproject the data to the same projection used by sits,
+
+waterFiles <- getTifFiles("/water/split")
+crs_sits <- getSitsValidateEnv()$crs_sits
+outputDir <- baseDir("/water/reproject")
+
+# Takes too long
+# raster::projectRaster(myraster, filename = outputFile, crs = crs_sits, method = "ngb", progress = "text")
+
+for(file in waterFiles){
+  name <- basename(file)
+  outputFile <- paste0(outputDir, "/", name)
+  cat(paste0("Processing '", name, "'\n"))
+  gdalwarp(file, outputFile, "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0", crs_sits, r = "near")
+}
+
+# 3rd: Merge water
 
 classificationFile <- getTifFiles("classificacoes-agregado")[1]
 

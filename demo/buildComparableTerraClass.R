@@ -27,9 +27,9 @@ rasters <- lapply(files, function(file){
   paste0(resultDir, "/", file) %>% raster::raster()
 })
 
-comparableDir <- normalizePath(baseDir("cerrado/terraClass/comparable"))
+comparableDir <- normalizePath(baseDir("comparable"))
 
-outputFile <- paste0(comparableDir, "/terraclass.tif") %>% normalizePath(mustWork = FALSE)
+outputFile <- paste0(comparableDir, "/terraclass-2013.tif") %>% normalizePath(mustWork = FALSE)
 
 cat(paste0("Creating '", outputFile, "'\n"))
 rasters$filename <- outputFile

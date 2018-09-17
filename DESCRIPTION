@@ -21,6 +21,7 @@ Imports:
     methods,
     magrittr,
     parallel,
+    fasterize,
     XML
 RoxygenNote: 6.0.1
 Collate:

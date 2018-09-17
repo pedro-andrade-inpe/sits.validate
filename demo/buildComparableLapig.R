@@ -20,16 +20,15 @@ for(file in files){
                                   file = paste0(resultDir, "/", file), overwrite = TRUE)
 }
 
-
 # join the results
 rasters <- lapply(files, function(file){
   cat(paste0("Reading file '", file, "'\n"))
   paste0(resultDir, "/", file) %>% raster::raster()
 })
 
-comparableDir <- normalizePath(baseDir("lapig/comparable"))
+comparableDir <- normalizePath(baseDir("comparable"))
 
-outputFile <- paste0(comparableDir, "/lapig_2015.tif") %>% normalizePath(mustWork = FALSE)
+outputFile <- paste0(comparableDir, "/lapig-2015.tif") %>% normalizePath(mustWork = FALSE)
 
 cat(paste0("Creating '", outputFile, "'\n"))
 rasters$filename <- outputFile
@@ -41,4 +40,3 @@ myraster <- raster::raster(outputFile)
 
 result <- raster::mask(myraster, cerrado, progress = "text")
 raster::writeRaster(result, outputFile, overwrite = TRUE)
-

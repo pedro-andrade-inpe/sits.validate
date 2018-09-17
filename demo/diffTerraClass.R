@@ -28,11 +28,11 @@ names(total) <- c("sits", "count", "tc")
 tib <- tibble::as_tibble(total) %>% dplyr::group_by(sits, tc) %>% dplyr::summarize_all(sum)
 result <- xtabs(count~sits+tc,tib) %>% as.matrix()
 
-colnames(result) <- getSitsValidateEnv()$classificacao_tc
+colnames(result) <- getSitsValidateEnv()$classes_tc
 rownames(result) <- getSitsValidateEnv()$classes_sits[-14] # removing sugarcane class
 
 totalValidationTCCerrado(result) # 0.718
 
 res <- summarizeAsPercentage(result)
 res <- round(res, 2)
-write.table(res, "result-tc.csv", sep=",")
+write.table(res, "diff-tc.csv", sep=",")

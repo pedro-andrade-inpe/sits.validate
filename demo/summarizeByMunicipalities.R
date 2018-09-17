@@ -16,3 +16,38 @@ result2
 output <- joinClassifications(list(result1, result2))
 
 output
+
+
+###############################################
+# transpose the csv
+
+read.csv("result2001.csv") %>% tibble::as.tibble() -> data
+
+data %>%
+  select(-X) %>%
+  tidyr::gather(var, value, -rowname) %>%
+  tidyr::spread(rowname, value) %>%
+  write.csv(file = paste0("result-test.csv"))
+
+###############################################
+
+
+classifications = getTifFiles("classificacoes-final")
+
+for(file in classifications[5:17]){
+  myraster = raster::raster(file)
+
+  result <- summarizeOneByMunicipalities(myraster)
+  year <- file %>%
+    basename %>%
+    substr(23, 26) %>%
+    as.numeric()
+
+  var <- paste0("result", year)
+  assign(var, result)
+
+  write.csv(result, file = paste0("result", year, ".csv"))
+}
+
+
+

@@ -2,7 +2,7 @@
 require(sits.validate)
 require(ggplot2)
 
-classificationFiles <- getTifFiles("classificacoes-final")
+classificationFiles <- getTifFiles("classificacoes-pos-processamento")
 
 getTotal <- function(file){
   year <- file %>%
@@ -77,14 +77,21 @@ ggplot(result) +
   aes(x = Year, y = Total, group = Class, colour = Class) +
   geom_line(lwd = 1.5) +
   scale_colour_manual(name = "Class", values = values) +
+  theme_bw() +
   ylab("Total (Mkm^2)")
-
 
 total_cerrado <- dplyr::filter(result, Year == 2016) %>%
   dplyr::filter(Class %in% c("1. Araguaia", "2. Campo_Cerrado", "3. Cerradao", "4. Cerrado", "5. Cerrado_Rupestre")) %>%
   dplyr::select(Total) %>%
   sum()
 total_cerrado
+
+urban <- dplyr::filter(result, Class == "15. Urban Area")
+urban
+
+water <- dplyr::filter(result, Class == "16. Water")
+water
+
 
 total <- result %>% dplyr::filter(Year == 2016) %>% dplyr::select(Total) %>% sum()
 total

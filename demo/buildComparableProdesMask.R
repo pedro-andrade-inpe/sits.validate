@@ -1,5 +1,6 @@
 
 require(sits.validate)
+require(fasterize)
 
 sitstif <- baseDir("classificacoes-final/result-cerrado_2012_8_2013_8.tif")
 
@@ -25,4 +26,8 @@ gc()
 sitsraster <- raster::raster(sitstif) %>% raster::raster()
 result <- fasterize::fasterize(mask, sitsraster)
 
-raster::writeRaster(result, "myresult.tif", overwrite = TRUE)
+comparableDir <- normalizePath(baseDir("comparable"))
+
+outputFile <- paste0(comparableDir, "/prodesmask-2015.tif") %>% normalizePath(mustWork = FALSE)
+
+raster::writeRaster(result, outputFile, overwrite = TRUE)

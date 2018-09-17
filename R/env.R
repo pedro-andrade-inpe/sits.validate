@@ -23,7 +23,7 @@ sits.validate.env$classes_sits <- c(
     "16.Water"
 )
 
-sits.validate.env$classificacao_tc <- c(
+sits.validate.env$classes_tc <- c(
     "01.Agricultura anual",
     "02.Agricultura perene",
     "03.Corpo d'agua",
@@ -58,6 +58,11 @@ sits.validate.env$classificacao_tc_simplificada <- c(
 sits.validate.env$classes_mask <- c(
     "0. Fora",
     "1. Dentro"
+)
+
+sits.validate.env$classes_hansen <- c(
+  "0. NoForest",
+  "1. Forest"
 )
 
 #' @title Base path

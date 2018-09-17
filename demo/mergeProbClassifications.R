@@ -1,7 +1,6 @@
 
 # merge all probabilities tif files for a given year into a single tif file
 
-
 require(sits.validate)
 
 outputDir <- baseDir("probs-agregado")
@@ -41,7 +40,5 @@ for(year in years){
   cat(paste0("Creating '", outputFile, "'\n"))
   rasters$filename <- outputFile
 
-
   do.call(raster::merge, rasters)
 }
-

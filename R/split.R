@@ -8,6 +8,7 @@
 #' @seealso splitRasters
 #' @export
 splitRaster <- function(inputFile, outputDir, n.side){
+  outputDir <- baseDir(outputDir)
   r  <- raster::raster(inputFile)
   er <- raster::extent(r)
 
@@ -35,7 +36,7 @@ splitRaster <- function(inputFile, outputDir, n.side){
 #' @seealso splitRaster
 #' @export
 splitRasters <- function(inputDir, outputDir, n.side){
-  getTifFiles(inputDir)
+  files <- getTifFiles(inputDir)
 
   for(file in files){
     cat(paste0("processing file ", basename(file), "\n"))
