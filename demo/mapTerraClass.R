@@ -1,11 +1,11 @@
 
 require(sits.validate)
 
-tc2013 <- raster::raster(baseDir("consolidated-reference/terraclass-2013.tif"))
+tc2013 <- raster::raster(baseDir("comparable/terraclass-2013.tif"))
 sits2013 <- raster::raster(baseDir("classificacoes-final/result-cerrado_2012_8_2013_8.tif"))
 
 result <- raster::raster(sits2013) %>%
-  raster::writeStart("diff-tc-comparable.tif", overwrite = TRUE)
+  raster::writeStart(baseDir("results/map-tc-vs-sits.tif"), overwrite = TRUE)
 
 bs <- raster::blockSize(sits2013)
 total <- data.frame()

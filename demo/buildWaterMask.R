@@ -54,5 +54,5 @@ for(water in waterFiles){
   gc()
 }
 
-outputname <- baseDir("water/agregado/waterMask.tif")
+outputname <- baseDir("masks/waterMask.tif")
 raster::writeRaster(result, outputname)

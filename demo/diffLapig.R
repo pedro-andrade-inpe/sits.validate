@@ -39,4 +39,4 @@ totalValidationCerradoMask(result) # 0.703
 res <- summarizeAsPercentage(result)
 res <- round(res, 2)
 
-write.table(res, "diff-lapig.csv", sep=",")
+write.table(res, baseDir("results/diff-lapig-vs-sits.csv"), sep=",")

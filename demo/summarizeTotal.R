@@ -42,9 +42,9 @@ result <- tt %>%
   dplyr::group_by(Class, Year) %>%
   dplyr::summarize(Total = sum(Freq))
 
-result %>% write.csv(., file = "cerrado-total.csv")
+result %>% write.csv(., file = baseDir("results/cerrado-total.csv"))
 
-result <- read.csv("cerrado-total.csv") %>% tibble::as.tibble()
+result <- read.csv(baseDir("results/cerrado-total.csv")) %>% tibble::as.tibble()
 
 result$Class = paste(result$Class)
 
@@ -80,6 +80,9 @@ ggplot(result) +
   theme_bw() +
   ylab("Total (Mkm^2)")
 
+
+## quantities
+
 total_cerrado <- dplyr::filter(result, Year == 2016) %>%
   dplyr::filter(Class %in% c("1. Araguaia", "2. Campo_Cerrado", "3. Cerradao", "4. Cerrado", "5. Cerrado_Rupestre")) %>%
   dplyr::select(Total) %>%
@@ -92,7 +95,6 @@ urban
 water <- dplyr::filter(result, Class == "16. Water")
 water
 
-
 total <- result %>% dplyr::filter(Year == 2016) %>% dplyr::select(Total) %>% sum()
 total
 
@@ -103,4 +105,3 @@ total_pasto
   dplyr::filter(Class %in% c("1. Araguaia", "2. Campo_Cerrado", "3. Cerradao", "4. Cerrado", "5. Cerrado_Rupestre")) %>%
   dplyr::select(Total) %>%
   sum()
-

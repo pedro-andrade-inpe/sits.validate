@@ -1,8 +1,8 @@
 
 require(sits.validate)
 
-tccerrado2013 <- raster::raster(baseDir("cerrado/terraClass/comparable/terraclass.tif"))
-sits2013 <- raster::raster(baseDir("classificacoes-final/result-cerrado_2013_8_2014_8.tif"))
+tccerrado2013 <- raster::raster(baseDir("comparable/terraclass-2013.tif"))
+sits2013 <- raster::raster(baseDir("classificacoes-final/result-cerrado_2012_8_2013_8.tif"))
 
 bs <- raster::blockSize(sits2013)
 total <- data.frame()
@@ -31,8 +31,8 @@ result <- xtabs(count~sits+tc,tib) %>% as.matrix()
 colnames(result) <- getSitsValidateEnv()$classes_tc
 rownames(result) <- getSitsValidateEnv()$classes_sits[-14] # removing sugarcane class
 
-totalValidationTCCerrado(result) # 0.718
+totalValidationTCCerrado(result) # 0.713
 
 res <- summarizeAsPercentage(result)
 res <- round(res, 2)
-write.table(res, "diff-tc.csv", sep=",")
+write.table(res, baseDir("results/diff-tc-vs-sits.csv"), sep=",")

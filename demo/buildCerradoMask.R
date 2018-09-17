@@ -14,6 +14,6 @@ cerrado <- sf::read_sf(dsn = baseDir("shapes"), layer = "br_biomes") %>%
   dplyr::filter(name == "Cerrado") %>%
   sf::st_transform(crs_sits)
 
-outputname <- baseDir("cerrado/cerradoMask.tif")
+outputname <- baseDir("masks/cerradoMask.tif")
 
 result <- raster::rasterize(cerrado, newraster, silent = FALSE, file = outputname, overwrite = TRUE)

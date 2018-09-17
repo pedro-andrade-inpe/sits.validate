@@ -7,7 +7,7 @@ require("sits.validate")
 
 waterMask <- function(myraster, year){
   cat("Applying water mask\n")
-  water <- raster::raster(baseDir("water/final/waterMask.tif"))
+  water <- raster::raster(baseDir("masks/waterMask.tif"))
 
   raster::mask(myraster, water, maskvalue = 1, updatevalue = 16, progress = "text")
 }
@@ -15,7 +15,7 @@ waterMask <- function(myraster, year){
 urbanMask <- function(myraster, year){
   cat("Applying urban mask\n")
 
-  water <- paste0("urban/final/urban_areas_", year, ".tif") %>%
+  water <- paste0("masks/urban_areas_", year, ".tif") %>%
     baseDir %>%
     raster::raster()
 
@@ -25,7 +25,7 @@ urbanMask <- function(myraster, year){
 cerradoMask <- function(myraster, year){
   cat("Applying cerrado mask\n")
 
-  cerrado <- raster::raster(baseDir("cerrado/cerradoMask.tif"))
+  cerrado <- raster::raster(baseDir("masks/cerradoMask.tif"))
 
   raster::mask(myraster, cerrado, progress = "text")
 }
@@ -50,4 +50,3 @@ for(file in classificationFiles){
     urbanMask(year) %>%
     raster::writeRaster(outputfile, overwrite = TRUE)
 }
-

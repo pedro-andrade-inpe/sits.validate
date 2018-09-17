@@ -1,11 +1,11 @@
 
 require(sits.validate)
 
-prodesmask2013 <- raster::raster(baseDir("cerrado/prodesMask/comparable/prodesmask.tif"))
+prodesmask2013 <- raster::raster(baseDir("comparable/prodesmask-2015.tif"))
 sits2013 <- raster::raster(baseDir("classificacoes-final/result-cerrado_2014_8_2015_8.tif"))
 
 result <- raster::raster(sits2013) %>%
-  raster::writeStart("diff-prodes-mask-comparable.tif", overwrite = TRUE)
+  raster::writeStart(baseDir("results/map-prodesmask-vs-sits.tif"), overwrite = TRUE)
 
 bs <- raster::blockSize(sits2013)
 total <- data.frame()
@@ -37,3 +37,4 @@ for(i in 1:bs$n){
 }
 
 result <- raster::writeStop(result)
+

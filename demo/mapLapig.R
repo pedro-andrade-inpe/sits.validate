@@ -1,11 +1,11 @@
 
 require(sits.validate)
 
-lapig2015 <- raster::raster(baseDir("consolidated-reference/lapig-2015.tif"))
+lapig2015 <- raster::raster(baseDir("comparable/lapig-2015.tif"))
 sits2015 <- raster::raster(baseDir("classificacoes-final/result-cerrado_2014_8_2015_8.tif"))
 
 result <- raster::raster(sits2015) %>%
-  raster::writeStart("diff-lapig-comparable.tif", overwrite = TRUE)
+  raster::writeStart(baseDir("results/map-lapig-vs-sits.tif"), overwrite = TRUE)
 
 bs <- raster::blockSize(sits2015)
 total <- data.frame()
@@ -35,3 +35,4 @@ for(i in 1:bs$n){
 }
 
 result <- raster::writeStop(result)
+
