@@ -22,6 +22,16 @@ urbanMask <- function(myraster, year){
   raster::mask(myraster, water, maskvalue = 1, updatevalue = 15, progress = "text")
 }
 
+sugarMask <- function(myraster, year){
+  cat("Applying sugarcane mask\n")
+
+  sugar <- paste0("masks/Canasat_", year, ".tif") %>%
+    baseDir %>%
+    raster::raster()
+
+  raster::mask(myraster, sugar, maskvalue = 1, updatevalue = 14, progress = "text")
+}
+
 cerradoMask <- function(myraster, year){
   cat("Applying cerrado mask\n")
 
@@ -48,5 +58,6 @@ for(file in classificationFiles){
     waterMask(year) %>%
     cerradoMask(year) %>%
     urbanMask(year) %>%
+    sugarMask(year) %>%
     raster::writeRaster(outputfile, overwrite = TRUE)
 }

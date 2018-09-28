@@ -32,7 +32,7 @@ result <- xtabs(count ~ sits +prodes, tib) %>% as.matrix()
 
 result
 colnames(result) <- getSitsValidateEnv()$classes_mask
-rownames(result) <- getSitsValidateEnv()$classes_sits[-14] # removing sugarcane class
+rownames(result) <- getSitsValidateEnv()$classes_sits
 
 totalValidationCerradoMask(result) # 0.729
 

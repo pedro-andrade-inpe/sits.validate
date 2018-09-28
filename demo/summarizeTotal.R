@@ -59,7 +59,7 @@ result$Class <- labels
 values <- pal[,"color"]
 names(values) <- as.numeric(pal[,"value"])
 
-values <- values[-c(1, 17)]
+values <- values[-c(1)]
 
 #################################################################
 # Compute the total area of cerrado based on the pixels size

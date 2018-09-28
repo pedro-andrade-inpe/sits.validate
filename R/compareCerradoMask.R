@@ -15,7 +15,7 @@ summarizeAsPercentage <- function(result){
 #' @export
 totalValidationCerradoMask <- function(result){
   percentages <- summarizeAsPercentage(result)
-  return(sum(percentages[1:5, 1]) + sum(percentages[9:13, 2]))
+  return(sum(percentages[1:5, 1]) + sum(percentages[9:14, 2]))
 }
 
 #' @title Compare with Cerrado Mask.
