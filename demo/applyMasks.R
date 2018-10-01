@@ -55,9 +55,9 @@ for(file in classificationFiles){
 
   file %>%
     raster::raster() %>%
-    waterMask(year) %>%
     cerradoMask(year) %>%
     urbanMask(year) %>%
     sugarMask(year) %>%
+    waterMask(year) %>%
     raster::writeRaster(outputfile, overwrite = TRUE)
 }
