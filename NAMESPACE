@@ -2,6 +2,7 @@
 
 export("%>%")
 export(baseDir)
+export(compareRasters)
 export(compareTCCerrado)
 export(compareWithCerradoMask)
 export(degreesToMeters)

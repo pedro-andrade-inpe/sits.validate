@@ -23,11 +23,12 @@ Imports:
     parallel,
     fasterize,
     XML
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Collate:
     'env.R'
     'pipe.R'
     'zzz.R'
+    'compareRasters.R'
     'compareCerradoMask.R'
     'compareTCCerrado.R'
     'gis.R'
