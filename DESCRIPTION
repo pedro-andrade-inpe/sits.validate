@@ -7,6 +7,7 @@ Authors@R: c(person('Pedro', 'Andrade', role = c('aut', 'cre'), email = 'pedro.a
 Maintainer: Pedro R. Andrade <pedro.andrade@inpe.br>
 Description: A set of tools to validate sits classification as well as to summarize the outputs and produce aggregated data.
 Depends: R (>= 3.4)
+Encoding: UTF-8
 License: GPL-2 | file LICENSE
 Imports:
     raster (>= 2.6),
@@ -23,7 +24,7 @@ Imports:
     parallel,
     fasterize,
     XML
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Collate:
     'env.R'
     'pipe.R'
@@ -35,6 +36,7 @@ Collate:
     'split.R'
     'summarizeByPolygons.R'
     'utils.R'
+    'forEachBlock.R'
 Suggests: 
     knitr,
     rmarkdown,
