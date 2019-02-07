@@ -68,8 +68,7 @@ data = raster::raster(classificationFiles[1])
 res = raster::res(data)
 resol <- res[1] * res[2]
 
-result$Total <- (result$Total * resol) / 1e6 / 1e6
-###############  m2                      Km2   MKm2
+result$Total <- (result$Total * resol) / m2ToMha()
 
 names(values) = unique(result$Class)
 

@@ -12,6 +12,22 @@ printProgress <- function(value, progress)
 #' @export
 degreesToMeters <- function(degrees) degrees * 111000
 
+#' @title Convert from m^2 to Mha
+#' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
+#' @description This function divides the input values
+#' by 1e10 to convert from m^2 to Millions of hectares.
+#' @param value A vector of values.
+#' @export
+m2ToMha <- function(value) value / 1e10
+
+#' @title Convert from ha to Mha
+#' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
+#' @description This function divides the input values
+#' by 1e6 to convert from hectares to Millions of hectares.
+#' @param value A vector of values.
+#' @export
+haToMha <- function(value) value / 1e6
+
 #' @title Join tibles summing their areas
 #' @author Pedro R. Andrade, \email{pedro.andrade@@inpe.br}
 #' @description This function joins a list of tibbles and sums
