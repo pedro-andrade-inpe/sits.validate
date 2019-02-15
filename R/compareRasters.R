@@ -2,8 +2,8 @@
 #' @description Compares two categorical rasters with the same projection, extent, and resolution.
 #' It returns a matrix with the percentage of the area covered by each pair of values from the
 #' two rasters.
-#' @param raster1 A file name.
-#' @param raster2 Another file name.
+#' @param file1 A file name.
+#' @param file2 Another file name.
 #' @export
 compareRasters <- function(file1, file2){
   raster1 <- raster::raster(file1)
@@ -32,10 +32,9 @@ compareRasters <- function(file1, file2){
 
   names(total) <- c("file1", "count", "file2")
   tib <- tibble::as_tibble(total) %>% dplyr::group_by(file1, file2) %>% dplyr::summarize_all(sum)
-  result <- xtabs(count ~ file1 + file2, tib) %>% as.matrix()
+  result <- stats::xtabs(count ~ file1 + file2, tib) %>% as.matrix()
 
   res <- summarizeAsPercentage(result) %>% round(2)
   res <- res[order(as.numeric(rownames(res))),]
   res[,order(as.numeric(colnames(res)))]
 }
-
