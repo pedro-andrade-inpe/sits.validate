@@ -30,9 +30,10 @@ summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
     polygon <- polygons[i,]
 
     inter <- raster::intersect(raster::extent(polygon), data_extent)
+    output[, i] <- 0
 
     if(!is.null(inter)){
-      printProgress(paste0("Processing ", i, "/", quantity, " object '", myname, "'"), progress)
+      printProgress(paste0("Processing ", i, "/", quantity, " '", myname, "'"), progress)
 
       summ <- raster::extract(data, polygon) %>%
         summarizePixels(degreesToMeters(raster::res(data)))
@@ -41,8 +42,7 @@ summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
       summ <- as.vector(summ)
 
       if(sum(summ > 0)){
-          output[, myname] <- 0
-          output[columns, myname] <- summ
+          output[columns, i] <- summ
       }
     }
   }
@@ -58,10 +58,12 @@ summarizeOneByPolygons <- function(data, layer, attribute, progress = TRUE){
 #' same row names (classes) and municipalities as columns. It uses file
 #' Dropbox/sits.validate/shapes/55mu2500gsd_removednull.shp, with 5,564 municipalities.
 #' @param data A raster::raster data.
+#' @param name String with the attribute that stores names of the municipalities.
+#' @param file Name of a shapefile that store polygons to be used to summarize the data.
 #' @param progress A boolean value indicating whether this function should print its progress. Default is true.
 #' @export
-summarizeOneByMunicipalities <- function(data, progress = TRUE){
-  summarizeOneByPolygons(data, "55mu2500gsd_removednull", "Nome_Munic", progress)
+summarizeOneByMunicipalities <- function(data, file = "55mu2500gsd_removednull", name = "Nome_Munic", progress = TRUE){
+  summarizeOneByPolygons(data, file, name, progress)
 }
 
 #' @title Summarize the classification areas in each Brazilian municipality.
