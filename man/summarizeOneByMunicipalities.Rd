@@ -4,10 +4,15 @@
 \alias{summarizeOneByMunicipalities}
 \title{Summarize the classification areas in each Brazilian municipality.}
 \usage{
-summarizeOneByMunicipalities(data, progress = TRUE)
+summarizeOneByMunicipalities(data, file = "55mu2500gsd_removednull",
+  name = "Nome_Munic", progress = TRUE)
 }
 \arguments{
 \item{data}{A raster::raster data.}
+
+\item{file}{Name of a shapefile that store polygons to be used to summarize the data.}
+
+\item{name}{String with the attribute that stores names of the municipalities.}
 
 \item{progress}{A boolean value indicating whether this function should print its progress. Default is true.}
 }
