@@ -11,6 +11,20 @@ readLegend <- function(legend_file){
   )
 }
 
+# Compute a sublegend based on the values available in a raster.
+subLegend <- function(legend, myraster){
+  values <- myraster %>% raster::unique()
+
+  missing <- which(!(values %in% legend$Value))
+
+  if(length(missing) > 0){
+    missing <- missing %>% paste(collapse = ", ")
+    warning(paste0("The following values are missing in the legend: ", missing))
+  }
+
+  legend %>% filter(Value %in% values)
+}
+
 buildStyle <- function(csv, outputFile){
   header <- "<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
   <qgis minScale=\"1e+8\" version=\"3.0.1-Girona\" hasScaleBasedVisibilityFlag=\"0\" maxScale=\"0\">
