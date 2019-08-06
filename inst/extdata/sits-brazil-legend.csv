@@ -1,0 +1,43 @@
+Value;Label;Short;Color
+1;Agriculture;AGRI;#e67e22
+2;Non-Forest Natural Formation;NFNF;#45b39d
+3;Forest Natural Formation;FORN;#1e8449
+4;Forest Non-Natural Formation;FNNF;#117a65
+5;Pasture;PAST;#ffdfaa
+6;Non-Vegetated Areas;NVEG;#515a5a
+7;Water Bodies;WATR;#3498db
+10;Perenial;PERE;#bb8fce
+11;Semi-perenial;SPER;#c29ad2
+12;Single Crop;SNGL;#eb984e
+13;Double Crop;DOUB;#d35400
+110;Sugarcane;SUGC;#bb8fce
+120;Soy-Fallow;SOYF;#ff748c
+121;Cotton-Fallow;COTF;#997379
+130;Cotton-Soy;COTS;#e59866
+131;Millet-Cotton;MILC;#e5acb6
+132;Soy-Maize;SOYZ;#af601a
+133;Soy-Millet;SOYM;#d68910
+134;Soy-Sunflower;SOYS;#f1c40f
+135;Soy-Cotton;SOYT;#811911
+136;Soy-Corn;SOYC;#813e11
+20;Savanna;SAVA;#b3cc33
+21;Savanna Campo;SAVC;#52be80
+22;Savanna Araguaia;SAVA;#16A085
+23;Caatinga;CAAT;#82e0aa
+24;Pampa;PMPA;#239b56
+25;Restinga;REST;#76d7c4
+26;Apicum;APCM;#17a589
+27;Mangue;MANG;#117864
+30;Broadleaf;BRDF;#117a65
+31;Needleleaf;NDLF;#45b39d
+32;Cerradao;CERD;#52be80
+33;Vereda;VRDA;#2ecc71
+40;Secondary Vegetation;SECV;#a9dfbf
+41;Forestry;FORY;#82e0aa
+50;Rangeland;RANG;#f5cba7
+51;Grassland;GRAS;#ffdfaa
+60;Urban Area;URBA;#707b7c
+61;Beaches and Dunes;SAND;#d0d3d4
+62;Mining;MNNG;#2e4053
+63;Rocky Outcrop;ROCK;#283747
+64;Bare Soil;BARE;#aeb6bf
