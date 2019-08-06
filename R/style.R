@@ -1,4 +1,16 @@
 
+
+readLegend <- function(legend_file){
+  csv <- suppressMessages(
+    read_csv2("inst/extdata/sits-brazil-legend.csv", col_types = cols(
+      Value = col_double(),
+      Label = col_character(),
+      Short = col_character(),
+      Color = col_character()
+    ))
+  )
+}
+
 buildStyle <- function(csv, outputFile){
   header <- "<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
   <qgis minScale=\"1e+8\" version=\"3.0.1-Girona\" hasScaleBasedVisibilityFlag=\"0\" maxScale=\"0\">
