@@ -40,6 +40,7 @@ Collate:
     'utils.R'
     'forEachBlock.R'
     'block.R'
+    'style.R'
 Suggests: 
     knitr,
     rmarkdown,

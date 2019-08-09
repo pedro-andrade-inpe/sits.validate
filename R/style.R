@@ -1,18 +1,49 @@
 
+#' @title Read a legend from a file
+#' @description Read a legend from a csv file, with four columns:
+#' Value (with pixel values), Label (with pixel labels), Short
+#' (with short names to be used when one wants to refer to the pixel values),
+#' and Color (strings with hexadecimal values, such as #1e33f4).
+#' This function returns a tibble with these four columns.
+#' @param legend_file A csv file with the legend. As default, it uses
+#' the sits brazil legend.
+#' @export
+readLegend <- function(legend_file = NULL){
+  if(is.null(legend_file))
+    legend_file <- system.file("extdata", "sits-brazil-legend.csv", package = "sits.validate")
 
-readLegend <- function(legend_file){
   csv <- suppressMessages(
-    read_csv2("inst/extdata/sits-brazil-legend.csv", col_types = cols(
-      Value = col_double(),
-      Label = col_character(),
-      Short = col_character(),
-      Color = col_character()
+    readr::read_csv2(legend_file, col_types = readr::cols(
+      Value = readr::col_double(),
+      Label = readr::col_character(),
+      Short = readr::col_character(),
+      Color = readr::col_character()
     ))
   )
+
+  dup <- which(duplicated(csv$Short))
+  if(length(dup) > 0){
+    warning(paste0("There are duplicated values: ", paste0(csv$Short[dup], collapse = ", ")))
+  }
+
+  dup <- which(duplicated(csv$Color))
+  if(length(dup) > 0){
+    warning(paste0("There are duplicated colors: ", paste0(csv$Color[dup], collapse = ", ")))
+  }
+
+  return(csv)
 }
 
-# Compute a sublegend based on the values available in a raster.
+#' @title Compute a sublegend
+#' @description Compute a sublegend based on a legend
+#' the values available in a raster.
+#' @param legend A Legend, which might be read from readLegend(), or also a sublegend
+#' created from this function.
+#' @param myraster A raster or the path to a raster file.
+#' @export
 subLegend <- function(legend, myraster){
+  if(is.character(myraster)) myraster <- raster::raster(myraster)
+
   values <- myraster %>% raster::unique()
 
   missing <- which(!(values %in% legend$Value))
@@ -22,10 +53,15 @@ subLegend <- function(legend, myraster){
     warning(paste0("The following values are missing in the legend: ", missing))
   }
 
-  legend %>% filter(Value %in% values)
+  legend %>% dplyr::filter(Value %in% values)
 }
 
-buildStyle <- function(csv, outputFile){
+#' @title Create a style file
+#' @description Create a QGIS style file from a legend.
+#' @param legend A tibble with four columns as described in readLegend().
+#' @param outputFile A file name to be created. It tipically has extension .qml.
+#' @export
+buildStyle <- function(legend, outputFile){
   header <- "<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
   <qgis minScale=\"1e+8\" version=\"3.0.1-Girona\" hasScaleBasedVisibilityFlag=\"0\" maxScale=\"0\">
   <pipe>
@@ -41,7 +77,7 @@ buildStyle <- function(csv, outputFile){
   </minMaxOrigin>
   <colorPalette>"
 
-  lines <- csv %>% transmute(line = paste0(
+  lines <- legend %>% dplyr::transmute(line = paste0(
     "    <paletteEntry value=\"",
     Value,
     "\" color=\"",
@@ -63,7 +99,6 @@ buildStyle <- function(csv, outputFile){
   </pipe>
   <blendMode>0</blendMode>
   </qgis>"
-
 
   write(paste0(header, lines, footer), outputFile)
   return(invisible())
