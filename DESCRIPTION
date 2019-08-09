@@ -40,6 +40,7 @@ Collate:
     'utils.R'
     'forEachBlock.R'
     'block.R'
+    'groupToLevel.R'
     'style.R'
 Suggests: 
     knitr,
