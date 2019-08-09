@@ -1,3 +1,15 @@
+#' @title Create an empty directory
+#' @description Create an empty directory or clean an existent one.
+#' @param directory A relative path within baseDir().
+createEmptyDir <- function(directory){
+  directory <- baseDir(directory)
+  dir.create(directory, showWarnings = FALSE)
+
+  unlink(paste0(directory, "/*"))
+
+  if(!dir.exists(directory))
+    stop(paste0("It was not possible to create the directory ", directory))
+}
 
 #' @title Print a value on the screen
 #' @description Print the progress of a function.
