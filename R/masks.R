@@ -1,45 +1,67 @@
 
-#' @title Split a raster file
-#' @description Split a raster file into n.side ^ 2 files. Each output file
-#' will be have the same name of the input file plut -tile-<number>.
-#' @param inputFile Name of the input file.
-#' @param outputDir Output directory where the files will be saved.
-#' @param n.side Number of splits in each side (x and y).
-#' @seealso splitRasters
+#' @title Applies water mask
+#' @description Updates the pixels that overlap the water pixels
+#' into water. This function only works for Brazil.
+#' @param myraster A raster.
+#' @param legend A tibble with the legend, as described by readLegend().
 #' @export
-splitRaster <- function(inputFile, outputDir, n.side){
-  outputDir <- baseDir(outputDir)
-  r  <- raster::raster(inputFile)
-  er <- raster::extent(r)
+waterMask <- function(myraster, legend){
+  cat("Applying water mask\n")
+  water <- raster::raster(baseDir("masks/waterMask.tif"))
 
-  dx <- (er[2] - er[1]) / n.side  # extent of one tile in x direction
-  dy <- (er[4] - er[3]) / n.side  # extent of one tile in y direction
-  xs <- seq(er[1], by = dx, length = n.side) #lower left x-coordinates
-  ys <- seq(er[3], by = dy, length = n.side) #lower left y-coordinates
-  cS <- expand.grid(x = xs, y = ys)
+  water.sub <- raster::crop(water, raster::extent(myraster))
+  waterClass <- csv$Label %>% str_detect("Water") %>% which()
 
-  ## loop over extents and crop
-  for(i in 1:nrow(cS)) {
-    cat(paste0("tile ", i, "/", nrow(cS), "\n"))
-    ex1 <- c(cS[i, 1], cS[i, 1] + dx, cS[i, 2], cS[i, 2] + dy)  # create extents for cropping raster
-    cl1 <- raster::crop(r, ex1, progress = "text")
-    outputFile <- paste0(tools::file_path_sans_ext(basename(inputFile)), "-tile-", i, ".tif")
-    raster::writeRaster(cl1, paste0(outputDir, "/", outputFile), progress = "text", overwrite = TRUE)
+  if(length(waterClass) > 1){
+    stop("waterMask() cannot be used as there are more than one 'Water' classes in the legend")
   }
+  else if(length(waterClass) == 0){
+    stop("Could not find any 'Water' class in the legend")
+  }
+
+  raster::mask(myraster, water.sub, maskvalue = 1, updatevalue = waterClass, progress = "text")
 }
 
-#' @title Split all rasters within a given directory
-#' @description Split all tif files within a directory, each one into n.side ^ 2 files.
-#' @param inputDir Name of the input directory.
-#' @param outputDir Output directory where the files will be saved.
-#' @param n.side Number of splits in each side (x and y).
-#' @seealso splitRaster
-#' @export
-splitRasters <- function(inputDir, outputDir, n.side){
-  files <- getTifFiles(inputDir)
+urbanMask <- function(myraster, year, legend){
+  cat("Applying urban mask\n")
 
-  for(file in files){
-    cat(paste0("processing file ", basename(file), "\n"))
-    splitRaster(file, outputDir, n.side)
+  urban <- paste0("masks/urban_areas_", year, ".tif") %>%
+    baseDir %>%
+    raster::raster()
+
+  urban.sub <- raster::crop(urban, raster::extent(myraster))
+
+  urbanClass <- legend$Label %>% str_detect("Urban") %>% which()
+
+  if(length(urbanClass) > 1){
+    stop("urbanMask() cannot be used as there are more than one 'Urban' classes in the legend")
   }
+  else if(length(urbanClass) == 0){
+    stop("Could not find any 'Urban' class in the legend")
+  }
+
+  raster::mask(myraster, urban.sub, maskvalue = 1, updatevalue = urbanClass, progress = "text")
+}
+
+sugarcaneMask <- function(myraster, legend, year){
+  cat("Applying sugarcane mask\n")
+
+  sugar <- paste0("masks/Canasat_", year, ".tif") %>%
+    baseDir %>%
+    raster::raster()
+
+  if(raster::extent(sugar) != raster::extent(myraster)){
+    sugar <- raster::crop(sugar, raster::extent(myraster))
+  }
+
+  sugarcaneClass <- csv$Label %>% str_detect("Sugarcane") %>% which()
+
+  if(length(waterClass) > 1){
+    stop("sugarcaneMask() cannot be used as there are more than one 'Sugarcane' classes in the legend")
+  }
+  else if(length(waterClass) == 0){
+    stop("Could not find any 'Sugarcane' class in the legend")
+  }
+
+  raster::mask(myraster, sugar, maskvalue = 1, updatevalue = sugarcaneClass, progress = "text")
 }
