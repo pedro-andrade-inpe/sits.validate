@@ -4,12 +4,10 @@
 \alias{remapRaster}
 \title{Remap pixel values of an image}
 \usage{
-remapRaster(file, legend, replacements)
+remapRaster(file, replacements)
 }
 \arguments{
 \item{file}{A tiff file.}
-
-\item{legend}{A legend, that can be created with readLegend().}
 
 \item{replacements}{A list whose indexes belong to Short values of the legend,
 and whose values are the pixels of the images.}

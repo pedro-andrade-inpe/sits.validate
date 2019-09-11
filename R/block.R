@@ -44,12 +44,10 @@ applyFunctionByBlocks <- function(file, block_func){
 #' if the updated value is the same. It returns a raster in memory
 #' with the updated values.
 #' @param file A tiff file.
-#' @param legend A legend, that can be created with readLegend().
 #' @param replacements A list whose indexes belong to Short values of the legend,
 #' and whose values are the pixels of the images.
 #' @export
-remapRaster <- function(file, legend, replacements){
-  replacements <- sapply(names(replacements), function(v) legend$Value[legend$Short == v])
+remapRaster <- function(file, replacements){
   applyFunctionByBlocks(file, function(block) replacements[block])
 }
 
@@ -69,20 +67,19 @@ remapRaster <- function(file, legend, replacements){
 #' @seealso remapRaster()
 #' @export
 remapDirectory <- function(inputDir, outputDir, legend, replacements){
-  files <- getTifFiles(inputDir)
-  createEmptyDir(outputDir)
+  ok = replacements %in% legend$Short
 
-  currentDirectoy <- getwd()
-  setwd(baseDir(outputDir))
+  if(!all(ok)){
+    missing = replacements[!ok]
 
-  for(file in files){
-    cat(paste0("Processing ", file, "\n"))
-    remapRaster(file, legend, replacements) %>%
-      raster::writeRaster(basename(file))
+    stop(paste0("The following classes are missing in the legend: ",
+                paste(missing, collapse = ", "), "."))
   }
 
-  subLegend(legend, basename(files[1])) %>%
-    buildStyle("style.qml")
+  positions <- match(replacements, legend$Short)
+  values <- legend$Value[positions]
 
-  setwd(currentDirectoy)
+  processDirectory(inputDir, outputDir, function(file)
+    remapRaster(file, values)
+  )
 }
