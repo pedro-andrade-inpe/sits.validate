@@ -1,3 +1,12 @@
+#' @title Creates a vector of strings from variable names to represent land use and cover classes
+#' @description Convert a set of variable names in a vector of strings with their names.
+#' This function is useful to name the attributes to be read from CSV files.
+#' @param ... Names of the variables.
+#' @export
+landClasses <-function(...) {
+  paste(substitute(list(...)))[-1]
+}
+
 #' @title Apply a function over all pixels of a image by block
 #' @description Generate a raster from another raster an a function that
 #' takes block (a vector of pixels) as argument and returns a new raster
