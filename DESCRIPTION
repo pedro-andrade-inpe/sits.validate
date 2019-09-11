@@ -28,6 +28,7 @@ Imports:
     XML
 RoxygenNote: 6.1.1
 Collate:
+    'processDirectory.R'
     'env.R'
     'pipe.R'
     'zzz.R'
