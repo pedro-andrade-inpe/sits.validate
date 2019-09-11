@@ -9,8 +9,10 @@
 forEachBlock <- function(raster, func){
   bs <- raster::blockSize(raster)
 
-  for(i in 1:bs$n){
-    cat(paste0("Processing block ", i, "/", bs$n, "\n"))
+  total <- bs$n
+  pb <- utils::txtProgressBar(min = 0, max = total, style = 3)
+  for(i in 1:total){
+    utils::setTxtProgressBar(pb, i)
     row <- bs$row[i]
     nrows <- bs$nrows[i]
 
@@ -18,6 +20,8 @@ forEachBlock <- function(raster, func){
 
     func(block, row, nrows)
   }
+
+  close(pb)
 }
 
 #' @title Iterates over two rasters by blocks
