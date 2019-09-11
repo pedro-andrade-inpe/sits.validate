@@ -6,16 +6,30 @@
 #' @param legend A tibble representing a legend.
 #' @export
 groupRasterToLevel1 <- function(file, legend){
-  values <- legend$Value
-  highestLevel <- values %>%
-    paste() %>%
-    substr(1, 1) %>%
-    as.numeric()
+  original_values <- legend$Value
 
-  replacements <- rep(0, max(values))
-  replacements[values] <- highestLevel
+  highest_levels <- legend %>%
+    dplyr::filter(Parent == Value) %>%
+    dplyr::pull(Value) %>%
+    length()
 
-  result <- sits.validate:::applyFunctionByBlocks(file, function(block) replacements[block])
+  while(highest_levels != length(unique(legend$Parent))){
+    values <- legend$Value
+    parents <- legend$Parent
+
+    new_parents <- parents[match(parents, values)]
+
+    legend$Value <- legend$Parent
+    legend$Parent <- new_parents
+  }
+
+  #legend$Value <- original_values
+
+  result <- sits.validate:::applyFunctionByBlocks(file, function(block) legend$Parent[block])
+}
+
+groupRasterToClasses <- function(file, leged, classes){
+
 }
 
 #' @title Reclassify pixels using the first level of the legend
@@ -28,20 +42,8 @@ groupRasterToLevel1 <- function(file, legend){
 #' @param legend A legend, that can be created with readLegend().
 #' @export
 groupDirectoryToLevel1 <- function(inputDir, outputDir, legend){
-  files <- getTifFiles(inputDir)
-  createEmptyDir(outputDir)
-
-  currentDirectoy <- getwd()
-  setwd(baseDir(outputDir))
-
-  for(file in files){
-    cat(paste0("Processing ", file, "\n"))
-    groupRasterToLevel1(file, legend) %>%
-      raster::writeRaster(basename(file))
-  }
-
-  subLegend(legend, basename(files[1])) %>%
-    buildStyle("style.qml")
-
-  setwd(currentDirectoy)
+  processDirectory(inputDir, outputDir, function(file)
+    groupRasterToLevel1(file, legend)
+  )
 }
+
