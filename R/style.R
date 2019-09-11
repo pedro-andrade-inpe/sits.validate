@@ -15,6 +15,7 @@ readLegend <- function(legend_file = NULL){
   csv <- suppressMessages(
     readr::read_csv2(legend_file, col_types = readr::cols(
       Value = readr::col_double(),
+      Parent = readr::col_double(),
       Label = readr::col_character(),
       Short = readr::col_character(),
       Color = readr::col_character()
