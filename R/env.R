@@ -4,55 +4,63 @@ sits.validate.env <- new.env()
 
 sits.validate.env$crs_sits <- "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs"
 
-sits.validate.env$classes_sits <- c(
-    "01.Araguaia",
-    "02.Campo_Cerrado",
-    "03.Cerradao",
-    "04.Cerrado",
-    "05.Cerrado_Rupestre",
-    "06.Dunas",
-    "07.Fallow_Cotton",
-    "08.Millet_Cotton",
-    "09.Pasture",
-    "10.Soy_Corn",
-    "11.Soy_Cotton",
-    "12.Soy_Fallow",
-    "13.Soy_Millet",
-    "14.Sugarcane",
-    "15.Urban Area",
-    "16.Water"
+
+
+sits.validate.env$classes_tc_amaz <- list(
+  FNNF = 1,
+  SECV = 2,
+  PFOR = 3,
+  RANG = 4,
+  GRAS = 5,
+  "06.AgricPerene",
+  "07.AgricSemiPerene",
+  "08.AgricAnual",
+  MNNG = 9,
+  URBA = 10,
+  OTHR = 11,
+  NOBS = 12,
+  "13.DeforNoAno",
+  "14.NaoFloresta",
+  WATR = 7
 )
 
-sits.validate.env$classes_tc <- c(
-    "01.Agricultura anual",
-    "02.Agricultura perene",
-    "03.Corpo d'agua",
-    "04.Area urbanizada",
-    "05.Natural",
-    "06.Mineracao",
-    "07.Mosaico de ocupacoes",
-    "08.Nao observado",
-    "09.Natural nao vegetado",
-    "10.Outros",
-    "11.Pastagem",
-    "12.Silvicultura",
-    "13.Solo exposto"
-)
 
-sits.validate.env$classificacao_tc_simplificada <- c(
-    "1Agrican",
-    "2Agricpe",
-    "3Agua",
-    "4Urbana",
-    "5Natural",
-    "6Miner",
-    "7Mosaico",
-    "8Noobser",
-    "9Natnoveg",
-    "10Outros",
-    "11Pasto",
-    "12Silvic",
-    "13Solo"
+# mb == mapbiomas
+sits.validate.env$classes_mb <- c(
+  "00.ND",
+  "01.Forest",
+  "02.NatFor",
+  "03.ForestFor",
+  "04.Savanna",
+  "05.Mangrove",
+#  "06.ND",
+#  "07.ND",
+#  "08.ND",
+  "09.PlantedFor",
+#  "10.NonForNat",
+  "11.Wetland",
+  "12.Grassland",
+  "13.SaltFlat",
+#  "14.Farming",
+  "15.Pasture",
+#  "16.ND",
+#  "17.ND",
+#  "18.Agricult",
+  "19.AnnPerCrop",
+  "20.SemiPerCrop",
+  "21.Agric/Past",
+#  "22.NonVeg",
+  "23.Beach",
+  "24.Urban",
+  "25.OtherNonVeg",
+#  "26.Water",
+  "27.NonObs",
+#  "28.ND",
+  "29.Rock",
+  "30.Mining",
+#  "31.Aquacult",
+  "32.ND",
+  "33.RiverLake"
 )
 
 sits.validate.env$classes_mask <- c(
@@ -103,4 +111,3 @@ getSitsValidateEnv <- function() sits.validate.env
 getTifFiles <- function(dir){
   list.files(baseDir(dir), "*.tif$", full.names = TRUE) %>% normalizePath
 }
-
