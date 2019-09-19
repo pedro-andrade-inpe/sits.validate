@@ -8,7 +8,7 @@
     else
       sits.validate.env$base_dir <- "~/Dropbox/sits.validate"
 
-    sits.validate.env$base_dir <- normalizePath(sits.validate.env$base_dir)
+    sits.validate.env$base_dir <- normalizePath(sits.validate.env$base_dir, mustWork = FALSE)
 
     if(is.na(file.info(sits.validate.env$base_dir)$isdir)){
       packageStartupMessage("Could not find a valid base directory")
