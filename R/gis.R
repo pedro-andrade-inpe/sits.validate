@@ -91,8 +91,10 @@ reSample <- function(inputFile, outputFile, reference){
   unlink(resultDir, recursive = TRUE)
 }
 
-#' @title Compare two rasters
-#' @description Generate a confusion matrix to compare two rasters.
+#' @title Compare two categorical rasters
+#' @description Compares two categorical rasters with the same projection, extent, and resolution.
+#' It returns a matrix with the percentage of the area covered by each pair of values from the
+#' two rasters.
 #' @param data String with the input data file.
 #' @param reference String with the reference data file.
 #' @export
@@ -118,9 +120,7 @@ compareRasters <- function(data, reference){
   tib <- tibble::as_tibble(total) %>% dplyr::group_by(data, reference) %>% dplyr::summarize_all(sum)
 
   xtabs(count ~ data + reference, tib) %>%
-    as.matrix() %>%
-    summarizeAsPercentage() %>%
-    round(2)
+    as.matrix()
 }
 
 #' @title Count pixels of each class

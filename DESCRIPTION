@@ -32,7 +32,6 @@ Collate:
     'env.R'
     'pipe.R'
     'zzz.R'
-    'compareRasters.R'
     'compareCerradoMask.R'
     'compareTCCerrado.R'
     'gis.R'
