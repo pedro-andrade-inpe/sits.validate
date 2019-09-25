@@ -130,6 +130,7 @@ compareRasters <- function(data, reference){
 countPixels <- function(filename){
   filename %>%
     raster::raster() %>%
-    getValues %>%
-    table
+    getValues() %>%
+    table()
 }
+
