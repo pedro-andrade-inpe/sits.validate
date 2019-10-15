@@ -119,8 +119,13 @@ compareRasters <- function(data, reference){
   names(total) <- c("data", "count", "reference")
   tib <- tibble::as_tibble(total) %>% dplyr::group_by(data, reference) %>% dplyr::summarize_all(sum)
 
-  xtabs(count ~ data + reference, tib) %>%
+  result <- xtabs(count ~ data + reference, tib) %>%
     as.matrix()
+
+  result <- fillMissingColRows(result)
+  result <- result[order(as.numeric(rownames(result))),]
+  result <- result[,order(as.numeric(colnames(result)))]
+  return(result)
 }
 
 #' @title Compare two categorical rasters weitghing each class by its area.

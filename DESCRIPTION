@@ -43,6 +43,7 @@ Collate:
     'groupToLevel.R'
     'masks.R'
     'style.R'
+    'fillMissingColRowMatrix.R'
 Suggests: 
     knitr,
     rmarkdown,
