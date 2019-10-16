@@ -137,6 +137,18 @@ compareRasters <- function(data, reference){
 #' @param data String with the input data file.
 #' @param reference String with the reference data file.
 #' @export
+#' @examples
+#' \dontrun{
+#' library(raster)
+#' dat <- ref <- raster::raster(ncol = 10, nrow = 10)
+#' dat[] <- sample(1:5, ncell(dat), replace = TRUE)
+#' ref[] <- sample(1:5, ncell(ref), replace = TRUE)
+#' dat_file <- tempfile(fileext = ".tif")
+#' ref_file <- tempfile(fileext = ".tif")
+#' writeRaster(dat, dat_file)
+#' writeRaster(ref, ref_file)
+#' compareRasters_area(dat_file, ref_file) 
+#' }
 compareRasters_area <- function(data, reference){
 
     # @title Asses accuracy and estimate area according to Olofsson
