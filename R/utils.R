@@ -1,13 +1,19 @@
 #' @title Create an empty directory
 #' @description Create an empty directory or clean an existent one.
 #' @param directory A relative path within baseDir().
-createEmptyDir <- function(directory){
+#' @param overwrite Should the directory be overwritten?
+createEmptyDir <- function(directory, overwrite = FALSE) {
   directory <- baseDir(directory)
   dir.create(directory, showWarnings = FALSE)
 
+  if (!overwrite && dir.exists(directory) && length(list.files(directory)) > 0) {
+    warning(sprintf("The directory %s already exists. Skipping directory creation.", directory))
+    return(NULL)
+  }
+
   unlink(paste0(directory, "/*"))
 
-  if(!dir.exists(directory))
+  if (!dir.exists(directory))
     stop(paste0("It was not possible to create the directory ", directory))
 }
 
