@@ -28,6 +28,11 @@ readLegend <- function(legend_file = NULL) {
     stop(paste0("There are duplicated short names: ", paste0(csv$Short[dup], collapse = ", ")))
   }
 
+  dup <- which(duplicated(csv$Color))
+  if (length(dup) > 0) {
+    warning(paste0("There are duplicated colors: ", paste0(csv$Color[dup], collapse = ", ")))
+  }
+
   dup <- which(duplicated(csv$Value))
   if (length(dup) > 0) {
     warning(paste0("There are duplicated values: ", paste0(csv$Value[dup], collapse = ", ")))
