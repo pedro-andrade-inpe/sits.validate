@@ -1,12 +1,13 @@
 Value;Parent;Label;Short;Color
+0;0;No-Data;NODT;#000000
 1;1;Natural;NATL;#269A26
 2;2;Anthropic;ANTH;#DB372C
 3;3;Water Bodies;WATR;#3498db
 4;4;Sand;SAND;#c2b280
 5;5;Non-Observed;NOBS;#f8f8f8
 6;1;Forest Natural Formation;FORN;#1e8449
-7;5;Forest Amazon Biome;FAMZ;#269A27
-11;5;Forest Cerrado Biome;FCER;#117a66
+7;6;Forest Amazon Biome;FAMZ;#269A27
+11;6;Forest Cerrado Biome;FCER;#117a66
 12;11;Cerradao;CERD;#52be81
 50;1;Non-forest Natural Formation;NFNF;#45b39d
 51;50;Savanna;SAVN;#b3eb3e
@@ -19,6 +20,8 @@ Value;Parent;Label;Short;Color
 75;50;Restinga;REST;#76d7c4
 76;50;Apicum;APCM;#17a589
 77;50;Mangue;MANG;#117864
+78;50;Seasonal-Wetland;SWET;#62ce90
+79;50;Wetland;WETL;#62ce90
 90;2;Agriculture;AGRI;#e67e22
 91;90;Perenial;PERE;#bb8fce
 96;90;Semi-perenial;SEMI;#c29ad2

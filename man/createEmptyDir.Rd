@@ -4,10 +4,12 @@
 \alias{createEmptyDir}
 \title{Create an empty directory}
 \usage{
-createEmptyDir(directory)
+createEmptyDir(directory, overwrite = FALSE)
 }
 \arguments{
 \item{directory}{A relative path within baseDir().}
+
+\item{overwrite}{Should the directory be overwritten?}
 }
 \description{
 Create an empty directory or clean an existent one.

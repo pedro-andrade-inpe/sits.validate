@@ -4,13 +4,13 @@
 \alias{subLegend}
 \title{Compute a sublegend}
 \usage{
-subLegend(legend, myraster)
+subLegend(legend, classes)
 }
 \arguments{
 \item{legend}{A Legend, which might be read from readLegend(), or also a sublegend
 created from this function.}
 
-\item{myraster}{A raster or the path to a raster file.}
+\item{classes}{A vector of classes codes to filter the legend.}
 }
 \description{
 Compute a sublegend based on a legend

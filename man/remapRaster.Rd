@@ -9,8 +9,8 @@ remapRaster(file, replacements)
 \arguments{
 \item{file}{A tiff file.}
 
-\item{replacements}{A list whose indexes belong to Short values of the legend,
-and whose values are the pixels of the images.}
+\item{replacements}{A vector with the code of classes to be remapped according
+to its position.}
 }
 \description{
 Replace

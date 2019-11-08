@@ -8,8 +8,9 @@
 #' @param legend_file A csv file with the legend. As default, it uses
 #' the sits brazil legend.
 #' @export
-readLegend <- function(legend_file = NULL){
-  if(is.null(legend_file))
+readLegend <- function(legend_file = NULL) {
+
+  if (is.null(legend_file))
     legend_file <- system.file("extdata", "sits-brazil-legend.csv", package = "sits.validate")
 
   csv <- suppressMessages(
@@ -23,13 +24,18 @@ readLegend <- function(legend_file = NULL){
   )
 
   dup <- which(duplicated(csv$Short))
-  if(length(dup) > 0){
-    warning(paste0("There are duplicated values: ", paste0(csv$Short[dup], collapse = ", ")))
+  if (length(dup) > 0) {
+    stop(paste0("There are duplicated short names: ", paste0(csv$Short[dup], collapse = ", ")))
   }
 
   dup <- which(duplicated(csv$Color))
-  if(length(dup) > 0){
+  if (length(dup) > 0) {
     warning(paste0("There are duplicated colors: ", paste0(csv$Color[dup], collapse = ", ")))
+  }
+
+  dup <- which(duplicated(csv$Value))
+  if (length(dup) > 0) {
+    warning(paste0("There are duplicated values: ", paste0(csv$Value[dup], collapse = ", ")))
   }
 
   return(csv)
@@ -40,21 +46,18 @@ readLegend <- function(legend_file = NULL){
 #' the values available in a raster.
 #' @param legend A Legend, which might be read from readLegend(), or also a sublegend
 #' created from this function.
-#' @param myraster A raster or the path to a raster file.
+#' @param classes A vector of classes codes to filter the legend.
 #' @export
-subLegend <- function(legend, myraster){
-  if(is.character(myraster)) myraster <- raster::raster(myraster)
+subLegend <- function(legend, classes){
 
-  values <- myraster %>% raster::unique()
+  missing <- which(!(classes %in% legend$Value))
 
-  missing <- which(!(values %in% legend$Value))
-
-  if(length(missing) > 0){
+  if (length(missing) > 0) {
     missing <- missing %>% paste(collapse = ", ")
     warning(paste0("The following values are missing in the legend: ", missing))
   }
 
-  legend %>% dplyr::filter(Value %in% values)
+  return(legend[legend$Value %in% classes,])
 }
 
 #' @title Create a style file

@@ -4,12 +4,13 @@
 \alias{landClasses}
 \title{Creates a vector of strings from variable names to represent land use and cover classes}
 \usage{
-landClasses(...)
+landClasses(legend, ...)
 }
 \arguments{
+\item{legend}{A tibble legend.}
+
 \item{...}{Names of the variables.}
 }
 \description{
-Convert a set of variable names in a vector of strings with their names.
-This function is useful to name the attributes to be read from CSV files.
+Convert a set of class names in a vector with its code.
 }

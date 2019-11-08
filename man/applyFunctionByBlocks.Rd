@@ -4,15 +4,17 @@
 \alias{applyFunctionByBlocks}
 \title{Apply a function over all pixels of a image by block}
 \usage{
-applyFunctionByBlocks(file, block_func)
+applyFunctionByBlocks(raster, block_func, ...)
 }
 \arguments{
-\item{file}{A tiff file.}
+\item{raster}{A raster object.}
 
 \item{block_func}{A function that takes a vector of pixels as argument
 and returns another vector of pixels with the same size of the input.
 All but the last call use vectors with the same size. The last one
 uses the remaining pixels of the raster.}
+
+\item{...}{Any other parameters to pass to block_func.}
 }
 \description{
 Generate a raster from another raster an a function that

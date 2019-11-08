@@ -11,7 +11,7 @@ cerradoUrbanMask(myraster, legend, year)
 
 \item{legend}{A tibble legend.}
 
-\item{year}{An year. Sugarcane data are available for 2000 to 2016.}
+\item{year}{An year. Urban area data are available for 2000 to 2016.}
 }
 \description{
 Apply cerrado urban mask from ?? over a raster, given a legend and an year.
