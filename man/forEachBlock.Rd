@@ -4,14 +4,15 @@
 \alias{forEachBlock}
 \title{Iterates over a raster by block}
 \usage{
-forEachBlock(raster, func)
+forEachBlock(raster, func, ...)
 }
 \arguments{
 \item{raster}{A raster::raster.}
 
-\item{func}{A function that takes three arguments: (1) A vector of pixels
-representing a block, (2) The row of the raster where the block starts, and
-(3) The number of rows within the block.}
+\item{func}{A function that takes at least one arguments: A vector of pixels
+representing a block.}
+
+\item{...}{Any other parameters to pass to func.}
 }
 \description{
 Iterates over a raster using a second order function.

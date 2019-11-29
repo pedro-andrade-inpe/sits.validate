@@ -4,7 +4,7 @@
 \alias{remapDirectory}
 \title{Remap pixel values of all images within a directory}
 \usage{
-remapDirectory(inputDir, outputDir, legend, replacements)
+remapDirectory(inputDir, outputDir, replacements, overwrite = FALSE)
 }
 \arguments{
 \item{inputDir}{Input directory. It must be a relative path within baseDir().}
@@ -12,10 +12,12 @@ remapDirectory(inputDir, outputDir, legend, replacements)
 \item{outputDir}{Output directory. It will be cleaned before processing
 the files. It must also be a relative path within baseDir().}
 
-\item{legend}{A legend, that can be created with readLegend().}
+\item{replacements}{A vector with the code of classes to be remapped according
+to its position.}
 
-\item{replacements}{A list whose indexes belong to Short values of the legend,
-and whose values are the pixels of the images.}
+\item{overwrite}{Should output files be overwritten?}
+
+\item{legend}{A legend, that can be created with readLegend().}
 }
 \description{
 create a directory with the classifications, replacing
