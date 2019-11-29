@@ -218,6 +218,14 @@ compareRasters_area <- function(data, reference){
     area <- freq_tab[["count"]]
     names(area) <- as.character(freq_tab[["value"]])
 
+    # Ensure that error_matrix and area have the same classes.
+    missing_cols <- setdiff(colnames(error_matrix), names(area))
+    if (length(missing_cols) > 0) {
+        missing_data <- rep(0, length(missing_cols))
+        names(missing_data) <- missing_cols
+        area <- append(area, missing_data)
+    }
+
     return(.asses_accuracy_area(error_matrix, area))
 }
 
