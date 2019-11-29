@@ -203,6 +203,10 @@ compareRasters_area <- function(data, reference){
         )
     }
 
+    # Validation.
+    if(raster::compareRaster(raster::raster(data), raster::raster(reference), res = TRUE) != TRUE)
+        stop("The given raster must match on extent, number of rows and cols, spatial reference system, and spatial resolution.")
+
     # Do the math.
     error_matrix <- compareRasters(data = data, reference = reference)
 
